@@ -1,4 +1,4 @@
-import Category from "../models/catogary.js";
+import Category from "../models/category/catogary.js";
 
 // Controller for handling categories
 const CategoryController = {

@@ -4,7 +4,7 @@ const MessageSchema = new mongoose.Schema({
   fullName: {
     type: String,
     required: true,
-    trim: true, // Removes leading/trailing whitespace
+    trim: true, 
     minlength: 3,
     maxlength: 100,
   },
@@ -13,7 +13,7 @@ const MessageSchema = new mongoose.Schema({
     required: true,
     validate: {
       validator: function (v) {
-        // Validates phone number format (international and local)
+        
         return /^\+?[1-9]\d{1,14}$/.test(v);
       },
       message: props => `${props.value} is not a valid phone number!`,
@@ -22,7 +22,7 @@ const MessageSchema = new mongoose.Schema({
   email: {
     type: String,
     required: true,
-    unique: true, // Prevent duplicate emails
+    unique: true, 
     lowercase: true,
     trim: true,
     validate: {
@@ -40,7 +40,7 @@ const MessageSchema = new mongoose.Schema({
     minlength: 10,
     maxlength: 500,
   },
-}, { timestamps: true }); // Automatically add createdAt and updatedAt fields
+}, { timestamps: true }); 
 
  const Message= mongoose.model('Message', MessageSchema);
  export default Message;
