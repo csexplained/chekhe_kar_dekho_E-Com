@@ -1,21 +1,12 @@
 'use client'
-// import Link from "next/link";
-// import { CiSearch, CiHeart, CiUser } from "react-icons/ci";
-// import { RiShoppingBag2Line } from "react-icons/ri";
-import { FaTruck, FaHeadset, FaShieldAlt, FaRocket } from "react-icons/fa";
-// import logo from '../public/Logo.png'
 import Image from "next/image";
-// import Image1 from '../public/Image1.png'
 import '@fontsource/inter/';
-import '@fontsource/poppins/600.css'; // Semi-bold weight
+import '@fontsource/poppins/600.css';
 import './globals.css';
-import '@fontsource/poppins'; // Defaults to all weights and styles
-// OR import specific weights and styles for optimized loading
-import '@fontsource/poppins/400.css'; // Regular weight
+import '@fontsource/poppins';
+import '@fontsource/poppins/400.css';
 import '@fontsource/poppins/700.css';
 import shop_by_category from '../public/shop_by_category.png'
-// import comingSoon from '../public/coming_soon.png'
-// import chutney from '../public/Garlic Chutney (1) (1) 1.png'
 import TalkOfTown from "@/components/TalkOfTown";
 import BestCombo from "@/components/BestCombo";
 import chakKrDekho from '../public/chak_kr_dekho.png'
@@ -25,93 +16,21 @@ import CustomerHome from "@/components/CustomerHome";
 import Footer from '@/components/Footer'
 import Navbar from "@/components/Navbar";
 import s_first from '../public/image (4).png'
-// import s_second from '../public/image (5).png'
-// import s_third from '../public/image (6).png'
-// import s_forth from '../public/image (7).png'
-// import s_fivth from '../public/image (8).png'
-// import s_sixth from '../public/image (9).png'
-// import { useState, useRef } from 'react';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import mango_pickle from '../public/mango_pickle.png'
-
+import FeaturesBannar from "@/components/FeaturesBannar";
+import ShopCategory from "@/components/ShopbyCategory";
+import HomePageCarousel from "@/components/CarousalHomepage";
 
 export default function Home() {
 
-  // const [isBestSellers, setIsBestSellers] = useState(true);
-  // const scrollContainerRef = useRef(null);
-
-  // const handleBestSellersClick = () => setIsBestSellers(true);
-  // const handleNewLaunchesClick = () => setIsBestSellers(false);
-
-  // const scrollLeft = () => {
-  //   if (scrollContainerRef.current) {
-  //     scrollContainerRef.current.scrollBy({
-  //       left: -300, // Adjust the scroll distance as needed
-  //       behavior: 'smooth',
-  //     });
-  //   }
-  // };
-
-  // const scrollRight = () => {
-  //   if (scrollContainerRef.current) {
-  //     scrollContainerRef.current.scrollBy({
-  //       left: 300, // Adjust the scroll distance as needed
-  //       behavior: 'smooth',
-  //     });
-  //   }
-  // };
   return (
     <>
-
-
-
-      <div className="bg-yellow-100 my-4">
-        <div className="flex flex-col sm:flex-row mx-4 sm:mx-20 justify-between my-4 bg-yellow-100">
-
-          {/* Free Shipping */}
-          <div className="flex flex-col items-center text-center my-4 sm:my-0 sm:mr-8">
-            <div className="flex items-center justify-center w-16 h-16 rounded-full bg-white border border-white-500 mb-4">
-              <FaTruck className="text-4xl text-red-500" />
-            </div>
-            <h3 className="text-xl font-semibold mb-2 font-poppins">Free Shipping</h3>
-            <p className="text-gray-600">Get free shipping on all orders</p>
-          </div>
-
-          {/* Customer Service */}
-          <div className="flex flex-col items-center text-center my-4 sm:my-0 sm:mr-8">
-            <div className="flex items-center justify-center w-16 h-16 rounded-full bg-white border border-white-500 mb-4">
-              <FaHeadset className="text-4xl text-red-500" />
-            </div>
-            <h3 className="text-xl font-semibold mb-2">Customer Service</h3>
-            <p className="text-gray-600">Please contact us at +9196259220070</p>
-          </div>
-
-          {/* Secure Payment */}
-          <div className="flex flex-col items-center text-center my-4 sm:my-0 sm:mr-8">
-            <div className="flex items-center justify-center w-16 h-16 rounded-full bg-white border border-white-500 mb-4">
-              <FaShieldAlt className="text-4xl text-red-500" />
-            </div>
-            <h3 className="text-xl font-semibold mb-2">Secure Payment</h3>
-            <p className="text-gray-600">We ensure your money is safe</p>
-          </div>
-
-          {/* Fast Delivery */}
-          <div className="flex flex-col items-center text-center my-4 sm:my-0">
-            <div className="flex items-center justify-center w-16 h-16 rounded-full bg-white border border-white-500 mb-4">
-              <FaRocket className="text-4xl text-red-500" />
-            </div>
-            <h3 className="text-xl font-semibold mb-2">Fast Delivery</h3>
-            <p className="text-gray-600">Delivering within 3-5 days across India</p>
-          </div>
-        </div>
-      </div>
-
-
+      <HomePageCarousel/>
+      <FeaturesBannar />
 
       <div className="my-12">
-        <div className="flex justify-center">
-          <Image src={shop_by_category} height={600} width={800} alt="shop_by_category" />
-        </div>
+        <ShopCategory />
 
         <div className="mx-4 sm:mx-20 my-12">
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-y-4 gap-x-4 sm:gap-x-6 justify-items-center">

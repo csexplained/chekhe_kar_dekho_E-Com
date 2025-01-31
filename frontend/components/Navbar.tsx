@@ -40,7 +40,7 @@ const Navbar = () => {
               placeholder="Search..."
               className="pl-4 pr-12 h-9 border border-gray-400 rounded-full focus:outline-none focus:border-[#B81F2E] transition-colors duration-200"
             />
-            <button className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-[#B81F2E] text-white p-2 rounded-full hover:bg-[#9e1a26] transition-colors duration-200">
+            <button className="absolute right-0 top-1/2 transform -translate-y-1/2 bg-[#B81F2E] text-white p-2 rounded-full hover:bg-[#9e1a26] transition-colors duration-200">
               <CiSearch size={16} />
             </button>
           </div>
