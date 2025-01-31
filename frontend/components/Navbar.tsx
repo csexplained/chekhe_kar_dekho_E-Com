@@ -1,7 +1,7 @@
-'use client'
+'use client';
+
 import Image from 'next/image';
 import React, { useState } from 'react';
-import Image1 from '../public/Image1.png';
 import logo from '../public/Logo.png';
 import Link from 'next/link';
 import { CiSearch } from "react-icons/ci";
@@ -10,90 +10,75 @@ import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
+  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
 
   return (
     <>
-      <div className="bg-yellow-400 text-black text-center py-2 font-inter">
-        Upto 70% Off on orders above Rs999
-      </div>
-
-      <div className="mx-4 md:mx-20 my-8 flex justify-between items-center">
+      <div className="sticky top-0 w-full px-6 md:px-16 lg:px-16 h-[105px] flex justify-between items-center bg-white shadow-md z-50">
         {/* Logo */}
-        <div className="flex items-center">
-          <div className="mr-4">
-            <Image src={logo} width={60} height={60} alt="logo" />
-          </div>
-          <div className="hidden md:flex gap-8 ml-4 items-center">
-          <Link href="/">Home</Link>
-          <Link href="/shop">Shop</Link>
-          <Link href="/sale">Sale</Link>
-          <Link href="/launchingSoon">Launching soon</Link>
-          <Link href="/ourStory">Our Story</Link>
-          <Link href="/contactUs">Contact Us</Link>
-        </div>
+        <div className="flex items-center gap-4">
+          <Image src={logo} width={80} height={80} alt="logo" className="h-20 w-auto cursor-pointer" />
+
+          {/* Desktop Links */}
+          <nav className="hidden lg:flex gap-6 text-lg font-normal">
+            <Link className="text-[#B81F2E] hover:text-black transition-colors duration-200" href="/">Home</Link>
+            <Link className="hover:text-[#B81F2E] transition-colors duration-200" href="/shop">Shop</Link>
+            <Link className="hover:text-[#B81F2E] transition-colors duration-200" href="/sale">Sale</Link>
+            <Link className="hover:text-[#B81F2E] transition-colors duration-200" href="/launchingSoon">Launching soon</Link>
+            <Link className="hover:text-[#B81F2E] transition-colors duration-200" href="/ourStory">Our Story</Link>
+            <Link className="hover:text-[#B81F2E] transition-colors duration-200" href="/contactUs">Contact Us</Link>
+            <Link className="hover:text-[#B81F2E] transition-colors duration-200" href="/gifting">Gifting</Link>
+          </nav>
         </div>
 
-        {/* Links for larger screens */}
-       
-
-        {/* Search bar and menu toggle */}
-        <div className="flex items-center">
-          <div className="relative hidden md:block">
+        {/* Right Side: Search and Menu */}
+        <div className="flex items-center gap-4">
+          {/* Search Bar (Hidden on Small Screens) */}
+          <div className="relative hidden lg:block">
             <input
               type="text"
               placeholder="Search..."
-              className="pl-4 pr-12 py-2 border border-black rounded-full focus:outline-none"
+              className="pl-4 pr-12 h-9 border border-gray-400 rounded-full focus:outline-none focus:border-[#B81F2E] transition-colors duration-200"
             />
-            <span className="absolute inset-y-0 right-0 flex items-center pr-3">
-              <button className="p-2 bg-red-700 rounded-full">
-                <CiSearch className="text-white" />
-              </button>
-            </span>
+            <button className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-[#B81F2E] text-white p-2 rounded-full hover:bg-[#9e1a26] transition-colors duration-200">
+              <CiSearch size={16} />
+            </button>
           </div>
 
-          <div className='ml-4 hidden md:block'>
-          <svg width="143" height="26" viewBox="0 0 143 26" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M19.0466 1.3784C16.6187 1.3784 14.493 2.42243 13.168 4.18718C11.843 2.42243 9.71729 1.3784 7.28944 1.3784C5.35683 1.38057 3.50399 2.14926 2.13743 3.51583C0.77087 4.88239 0.00217829 6.73522 0 8.66783C0 16.8978 12.2028 23.5594 12.7224 23.8346C12.8594 23.9082 13.0125 23.9468 13.168 23.9468C13.3235 23.9468 13.4766 23.9082 13.6136 23.8346C14.1333 23.5594 26.336 16.8978 26.336 8.66783C26.3338 6.73522 25.5652 4.88239 24.1986 3.51583C22.832 2.14926 20.9792 1.38057 19.0466 1.3784ZM13.168 21.9299C11.0212 20.6789 1.88114 14.9802 1.88114 8.66783C1.88301 7.23404 2.45341 5.8595 3.46726 4.84565C4.4811 3.83181 5.85564 3.26141 7.28944 3.25954C9.5762 3.25954 11.4961 4.47758 12.298 6.43397C12.3688 6.60648 12.4894 6.75403 12.6443 6.85787C12.7992 6.96171 12.9815 7.01716 13.168 7.01716C13.3545 7.01716 13.5368 6.96171 13.6917 6.85787C13.8466 6.75403 13.9672 6.60648 14.038 6.43397C14.8399 4.47405 16.7598 3.25954 19.0466 3.25954C20.4804 3.26141 21.8549 3.83181 22.8688 4.84565C23.8826 5.8595 24.453 7.23404 24.4549 8.66783C24.4549 14.9708 15.3125 20.6778 13.168 21.9299Z" fill="black"/>
-<path d="M80.6462 1.52043H58.3619C57.8246 1.52043 57.3093 1.73387 56.9294 2.11379C56.5495 2.49371 56.3361 3.00899 56.3361 3.54628V21.7789C56.3361 22.3162 56.5495 22.8315 56.9294 23.2114C57.3093 23.5913 57.8246 23.8048 58.3619 23.8048H80.6462C81.1835 23.8048 81.6988 23.5913 82.0787 23.2114C82.4586 22.8315 82.6721 22.3162 82.6721 21.7789V3.54628C82.6721 3.00899 82.4586 2.49371 82.0787 2.11379C81.6988 1.73387 81.1835 1.52043 80.6462 1.52043ZM80.6462 21.7789H58.3619V3.54628H80.6462V21.7789ZM75.5816 7.59798C75.5816 9.20984 74.9413 10.7557 73.8015 11.8954C72.6618 13.0352 71.1159 13.6755 69.5041 13.6755C67.8922 13.6755 66.3464 13.0352 65.2066 11.8954C64.0668 10.7557 63.4265 9.20984 63.4265 7.59798C63.4265 7.32933 63.5332 7.07169 63.7232 6.88173C63.9132 6.69177 64.1708 6.58505 64.4395 6.58505C64.7081 6.58505 64.9657 6.69177 65.1557 6.88173C65.3457 7.07169 65.4524 7.32933 65.4524 7.59798C65.4524 8.67255 65.8792 9.70312 66.6391 10.463C67.3989 11.2228 68.4295 11.6497 69.5041 11.6497C70.5786 11.6497 71.6092 11.2228 72.3691 10.463C73.1289 9.70312 73.5558 8.67255 73.5558 7.59798C73.5558 7.32933 73.6625 7.07169 73.8524 6.88173C74.0424 6.69177 74.3 6.58505 74.5687 6.58505C74.8373 6.58505 75.095 6.69177 75.2849 6.88173C75.4749 7.07169 75.5816 7.32933 75.5816 7.59798Z" fill="black"/>
-<path d="M138.859 23.7842C136.932 20.4536 133.963 18.0654 130.499 16.9333C132.213 15.9131 133.544 14.3585 134.289 12.5083C135.034 10.6581 135.15 8.61461 134.621 6.6916C134.092 4.76859 132.947 3.07242 131.36 1.86356C129.774 0.6547 127.834 0 125.84 0C123.846 0 121.906 0.6547 120.32 1.86356C118.734 3.07242 117.588 4.76859 117.059 6.6916C116.53 8.61461 116.647 10.6581 117.391 12.5083C118.136 14.3585 119.467 15.9131 121.181 16.9333C117.717 18.0642 114.748 20.4524 112.821 23.7842C112.751 23.8994 112.704 24.0276 112.683 24.1612C112.663 24.2948 112.67 24.4311 112.703 24.5621C112.736 24.6931 112.795 24.8161 112.877 24.9238C112.958 25.0316 113.061 25.1219 113.178 25.1895C113.295 25.2571 113.424 25.3006 113.558 25.3174C113.692 25.3342 113.828 25.3239 113.959 25.2872C114.089 25.2506 114.21 25.1882 114.316 25.1039C114.421 25.0195 114.509 24.9149 114.573 24.7962C116.956 20.6775 121.169 18.2185 125.84 18.2185C130.511 18.2185 134.724 20.6775 137.107 24.7962C137.171 24.9149 137.259 25.0195 137.364 25.1039C137.47 25.1882 137.591 25.2506 137.722 25.2872C137.852 25.3239 137.988 25.3342 138.122 25.3174C138.256 25.3006 138.385 25.2571 138.502 25.1895C138.619 25.1219 138.722 25.0316 138.803 24.9238C138.885 24.8161 138.944 24.6931 138.977 24.5621C139.01 24.4311 139.017 24.2948 138.997 24.1612C138.976 24.0276 138.929 23.8994 138.859 23.7842ZM118.756 9.11097C118.756 7.70996 119.172 6.34041 119.95 5.17551C120.729 4.01062 121.835 3.10269 123.129 2.56655C124.424 2.0304 125.848 1.89012 127.222 2.16345C128.596 2.43677 129.858 3.11142 130.849 4.10208C131.84 5.09275 132.514 6.35493 132.788 7.72902C133.061 9.10311 132.921 10.5274 132.384 11.8218C131.848 13.1161 130.94 14.2224 129.775 15.0008C128.611 15.7792 127.241 16.1946 125.84 16.1946C123.962 16.1926 122.161 15.4456 120.833 14.1176C119.505 12.7896 118.758 10.989 118.756 9.11097Z" fill="black"/>
-</svg>
+          {/* Icons */}
+          <div className='flex gap-4 justify-center items-center'>
+            <svg width="27" height="23" viewBox="0 0 27 23" fill="none" xmlns="http://www.w3.org/2000/svg" className="cursor-pointer hover:opacity-75 transition-opacity duration-200">
+              <path d="M19.0466 0.378395C16.6187 0.378395 14.493 1.42243 13.168 3.18718C11.843 1.42243 9.71729 0.378395 7.28944 0.378395C5.35683 0.380573 3.50399 1.14926 2.13743 2.51583C0.77087 3.88239 0.00217829 5.73522 0 7.66783C0 15.8978 12.2028 22.5594 12.7224 22.8346C12.8594 22.9082 13.0125 22.9468 13.168 22.9468C13.3235 22.9468 13.4766 22.9082 13.6136 22.8346C14.1333 22.5594 26.336 15.8978 26.336 7.66783C26.3338 5.73522 25.5652 3.88239 24.1986 2.51583C22.832 1.14926 20.9792 0.380573 19.0466 0.378395ZM13.168 20.9299C11.0212 19.6789 1.88114 13.9802 1.88114 7.66783C1.88301 6.23404 2.45341 4.8595 3.46726 3.84565C4.4811 2.83181 5.85564 2.26141 7.28944 2.25954C9.5762 2.25954 11.4961 3.47758 12.298 5.43397C12.3688 5.60648 12.4894 5.75403 12.6443 5.85787C12.7992 5.96171 12.9815 6.01716 13.168 6.01716C13.3545 6.01716 13.5368 5.96171 13.6917 5.85787C13.8466 5.75403 13.9672 5.60648 14.038 5.43397C14.8399 3.47405 16.7598 2.25954 19.0466 2.25954C20.4804 2.26141 21.8549 2.83181 22.8688 3.84565C23.8826 4.8595 24.453 6.23404 24.4549 7.66783C24.4549 13.9708 15.3125 19.6778 13.168 20.9299Z" fill="black" />
+            </svg>
+            <svg width="27" height="23" viewBox="0 0 27 23" fill="none" xmlns="http://www.w3.org/2000/svg" className="cursor-pointer hover:opacity-75 transition-opacity duration-200">
+              <path d="M24.6462 0.520432H2.36188C1.82459 0.520432 1.30931 0.733868 0.929386 1.11379C0.549466 1.49371 0.336029 2.00899 0.336029 2.54628V20.7789C0.336029 21.3162 0.549466 21.8315 0.929386 22.2114C1.30931 22.5913 1.82459 22.8048 2.36188 22.8048H24.6462C25.1835 22.8048 25.6988 22.5913 26.0787 22.2114C26.4586 21.8315 26.6721 21.3162 26.6721 20.7789V2.54628C26.6721 2.00899 26.4586 1.49371 26.0787 1.11379C25.6988 0.733868 25.1835 0.520432 24.6462 0.520432ZM24.6462 20.7789H2.36188V2.54628H24.6462V20.7789ZM19.5816 6.59798C19.5816 8.20984 18.9413 9.75569 17.8015 10.8954C16.6618 12.0352 15.1159 12.6755 13.504 12.6755C11.8922 12.6755 10.3463 12.0352 9.20657 10.8954C8.06681 9.75569 7.4265 8.20984 7.4265 6.59798C7.4265 6.32933 7.53322 6.07169 7.72318 5.88173C7.91314 5.69177 8.17078 5.58505 8.43942 5.58505C8.70807 5.58505 8.96571 5.69177 9.15567 5.88173C9.34563 6.07169 9.45235 6.32933 9.45235 6.59798C9.45235 7.67255 9.87922 8.70312 10.6391 9.46296C11.3989 10.2228 12.4295 10.6497 13.504 10.6497C14.5786 10.6497 15.6092 10.2228 16.369 9.46296C17.1289 8.70312 17.5557 7.67255 17.5557 6.59798C17.5557 6.32933 17.6625 6.07169 17.8524 5.88173C18.0424 5.69177 18.3 5.58505 18.5687 5.58505C18.8373 5.58505 19.0949 5.69177 19.2849 5.88173C19.4749 6.07169 19.5816 6.32933 19.5816 6.59798Z" fill="black" />
+            </svg>
+            <svg width="27" height="26" viewBox="0 0 27 26" fill="none" xmlns="http://www.w3.org/2000/svg" className="cursor-pointer hover:opacity-75 transition-opacity duration-200">
+              <path d="M26.8588 23.7842C24.9323 20.4536 21.9635 18.0654 18.4988 16.9333C20.2126 15.9131 21.5441 14.3585 22.2888 12.5083C23.0336 10.6581 23.1504 8.61461 22.6213 6.6916C22.0923 4.76859 20.9466 3.07242 19.3602 1.86356C17.7739 0.6547 15.8345 0 13.8401 0C11.8456 0 9.90629 0.6547 8.31993 1.86356C6.73357 3.07242 5.58789 4.76859 5.05882 6.6916C4.52976 8.61461 4.64656 10.6581 5.3913 12.5083C6.13605 14.3585 7.46754 15.9131 9.18132 16.9333C5.71666 18.0642 2.74786 20.4524 0.821366 23.7842C0.750718 23.8994 0.703858 24.0276 0.68355 24.1612C0.663242 24.2948 0.669899 24.4311 0.703126 24.5621C0.736353 24.6931 0.795478 24.8161 0.877013 24.9238C0.958548 25.0316 1.06084 25.1219 1.17786 25.1895C1.29487 25.2571 1.42424 25.3006 1.55833 25.3174C1.69241 25.3342 1.8285 25.3239 1.95857 25.2872C2.08863 25.2506 2.21004 25.1882 2.31562 25.1039C2.4212 25.0195 2.50882 24.9149 2.5733 24.7962C4.95644 20.6775 9.16867 18.2185 13.8401 18.2185C18.5115 18.2185 22.7237 20.6775 25.1068 24.7962C25.1713 24.9149 25.2589 25.0195 25.3645 25.1039C25.4701 25.1882 25.5915 25.2506 25.7216 25.2872C25.8516 25.3239 25.9877 25.3342 26.1218 25.3174C26.2559 25.3006 26.3853 25.2571 26.5023 25.1895C26.6193 25.1219 26.7216 25.0316 26.8031 24.9238C26.8847 24.8161 26.9438 24.6931 26.977 24.5621C27.0102 24.4311 27.0169 24.2948 26.9966 24.1612C26.9763 24.0276 26.9294 23.8994 26.8588 23.7842ZM6.75644 9.11097C6.75644 7.70996 7.17189 6.34041 7.95025 5.17551C8.72861 4.01062 9.83492 3.10269 11.1293 2.56655C12.4236 2.0304 13.8479 1.89012 15.222 2.16345C16.5961 2.43677 17.8583 3.11142 18.849 4.10208C19.8396 5.09275 20.5143 6.35493 20.7876 7.72902C21.0609 9.10311 20.9206 10.5274 20.3845 11.8218C19.8484 13.1161 18.9404 14.2224 17.7755 15.0008C16.6106 15.7792 15.2411 16.1946 13.8401 16.1946C11.962 16.1926 10.1614 15.4456 8.83341 14.1176C7.5054 12.7896 6.75845 10.989 6.75644 9.11097Z" fill="black" />
+            </svg>
           </div>
 
-          <button
-            className="md:hidden p-2 bg-gray-200 rounded-full ml-4"
-            onClick={toggleMenu}
-          >
+          {/* Mobile Menu Button */}
+          <button className="lg:hidden p-2 rounded-full bg-gray-200 hover:bg-gray-300 transition-colors duration-200" onClick={toggleMenu}>
             {isMenuOpen ? <AiOutlineClose size={24} /> : <AiOutlineMenu size={24} />}
           </button>
         </div>
       </div>
 
-      {/* Mobile menu */}
+      {/* Mobile Menu */}
       {isMenuOpen && (
-        <div className="md:hidden bg-gray-100 p-4">
-          <div className="flex flex-col gap-4">
-            <Link href="/">Home</Link>
-            <Link href="/">Shop</Link>
-            <Link href="/">Sale</Link>
-            <Link href="/">Launching soon</Link>
-            <Link href="/">Our Story</Link>
-            <Link href="/">Contact Us</Link>
-          </div>
+        <div className="lg:hidden bg-gray-100 p-4 shadow-lg fixed top-[105px] w-full z-40">
+          <nav className="flex flex-col gap-4 text-lg">
+            <Link className="hover:text-[#B81F2E] transition-colors duration-200" href="/" onClick={toggleMenu}>Home</Link>
+            <Link className="hover:text-[#B81F2E] transition-colors duration-200" href="/shop" onClick={toggleMenu}>Shop</Link>
+            <Link className="hover:text-[#B81F2E] transition-colors duration-200" href="/sale" onClick={toggleMenu}>Sale</Link>
+            <Link className="hover:text-[#B81F2E] transition-colors duration-200" href="/launchingSoon" onClick={toggleMenu}>Launching soon</Link>
+            <Link className="hover:text-[#B81F2E] transition-colors duration-200" href="/ourStory" onClick={toggleMenu}>Our Story</Link>
+            <Link className="hover:text-[#B81F2E] transition-colors duration-200" href="/contactUs" onClick={toggleMenu}>Contact Us</Link>
+            <Link className="hover:text-[#B81F2E] transition-colors duration-200" href="/gifting" onClick={toggleMenu}>Gifting</Link>
+          </nav>
         </div>
       )}
-
-      <div className="">
-        <Image
-          src={Image1}
-          height={1000}
-          width={1000}
-          className="w-full"
-          alt="Image1"
-        />
-      </div>
     </>
   );
 };

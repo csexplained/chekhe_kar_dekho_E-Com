@@ -1,26 +1,26 @@
 import Message from '../models/messsage.model.js'
 
 
-const message={
+const message = {
 
-    messageUpload: async (req,res)=>{
+    messageUpload: async (req, res) => {
 
-        try{
+        try {
 
-        const {fullName,phoneNumber,email,message}=req.body;
+            const { fullName, phoneNumber, email, message } = req.body;
 
-        const newMessage     = new Message({ fullName, phoneNumber, email, message });
+            const newMessage = new Message({ fullName, phoneNumber, email, message });
 
-        await newMessage.save()
+            await newMessage.save()
 
-        res.status(201).json({ message: 'Message information saved successfully!', message: newMessage });
+            res.status(201).json({ message: 'Message information saved successfully!', message: newMessage });
 
-        }catch{
+        } catch {
             res.status(400).json({ error: err.message });
         }
 
-        
-       
+
+
 
     }
 }

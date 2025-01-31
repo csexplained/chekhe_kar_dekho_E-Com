@@ -7,7 +7,6 @@ import Footer from '@/components/Footer'
 const page = () => {
   return (
     <div className='bg-custom-bg-fan'>
-    <Navbar/>
 
     <div className='bg-custom-bg-fan mx-20 my-20'>
         <div className='flex justify-between'>
