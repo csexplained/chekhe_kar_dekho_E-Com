@@ -26,16 +26,17 @@ const Carousel = () => {
         return () => clearInterval(interval);
     }, []);
 
-    const goToImage = (index) => {
+
+    const goToImage = (index: number): void => {
         setCurrentIndex(index);
     };
 
     return (
-        <div className="relative w-full h-[570px] overflow-hidden">
+        <div className="relative w-full h-[200px] sm:h-[400px] md:h-[570px] overflow-hidden">
             {/* Images */}
             <div className="flex transition-transform duration-500 ease-in-out" style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
                 {images.map((image, index) => (
-                    <div key={index} className="w-full flex-shrink-0 relative h-[570px]">
+                    <div key={index} className="w-full flex-shrink-0 relative h-[200px] sm:h-[400px] md:h-[570px]">
                         <Image
                             src={image}
                             alt={`Slide ${index}`}
@@ -53,7 +54,7 @@ const Carousel = () => {
                     <button
                         key={index}
                         onClick={() => goToImage(index)}
-                        className={`w-16 h-3 rounded-full ${currentIndex === index ? 'bg-[#FFA500]' : 'bg-[#FFA50080]'}`}
+                        className={`w-8 sm:w-12 md:w-16 h-2 sm:h-3 rounded-full ${currentIndex === index ? 'bg-[#FFA500]' : 'bg-[#FFA50080]'}`}
                     ></button>
                 ))}
             </div>

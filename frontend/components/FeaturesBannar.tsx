@@ -2,7 +2,7 @@
 const FeaturesBannar = () => {
     return (
         <>
-            <div className="flex my-4 w-full px-16 md:px-28  py-8 flex-col sm:flex-row justify-between bg-[#FFF9EA]">
+            <div className="flex my-4 w-full px-16 md:px-28 shadow-md py-8 flex-col sm:flex-row justify-between bg-[#FFF9EA]">
 
                 {/* Free Shipping */}
                 <div className="flex flex-col  items-center text-center my-4 sm:my-0 sm:mr-8">
