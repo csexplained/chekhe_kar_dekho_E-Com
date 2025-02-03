@@ -1,142 +1,119 @@
-import React from 'react'
-// import bg_image from '../public/BG.png'
-import Image from 'next/image'
-import Link from "next/link";
-// import { BsTelegram } from "react-icons/bs";
-// import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin } from "react-icons/fa";
-import logo from '../public/Logo.png'
-import '@fontsource/poppins'; // Defaults to all weights and styles
-// OR import specific weights and styles for optimized loading
-import '@fontsource/poppins/400.css'; // Regular weight
-
+import React from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import logo from '@/public/Logo.png';
+import '@fontsource/poppins/400.css';
+import { Facebook, Instagram, Linkedin, Twitter } from "lucide-react";
 
 const Footer = () => {
   return (
-    <div className='mt-12'>
-   <div className='mx-20 flex justify-between font-poppins'>
+    <footer className="bg-[#FFF9EA] py-12">
+      <div className="container mx-auto px-16">
+        {/* Grid for footer content */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-12">
+          {/* Brand Info Section */}
+          <div className="space-y-4">
+            <Image src={logo} height={80} width={80} alt="logo" />
+            <h2 className="font-bold text-xl text-gray-900">Chakh Le India</h2>
+            <p className="text-gray-600 text-sm leading-relaxed">
+              We bring you authentic homemade pickles made with love, tradition, and the finest ingredients.
+            </p>
+            <div className="flex gap-4">
+              {[
+                { icon: Facebook, href: "#" },
+                { icon: Twitter, href: "#" },
+                { icon: Instagram, href: "#" },
+                { icon: Linkedin, href: "#" },
+              ].map(({ icon: Icon, href }, index) => (
+                <Link
+                  key={index}
+                  href={href}
+                  aria-label={`Follow us on ${Icon.name}`}
+                  className="text-gray-600 hover:text-gray-900 transition-colors duration-300"
+                >
+                  <Icon className="w-5 h-5" />
+                </Link>
+              ))}
+            </div>
+          </div>
 
+          {/* Quick Links Section */}
+          <div>
+            <h3 className="font-bold text-gray-900 mb-4">LIKE</h3>
+            <ul className="space-y-2">
+              {["Shop", "Our Story", "Offers", "Product", "Contact us"].map((link, index) => (
+                <li key={index}>
+                  <Link
+                    href="#"
+                    className="text-gray-600 hover:text-gray-900 text-sm transition-colors duration-300"
+                  >
+                    {link}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
 
-    <div>
-        <Image src={logo} height={100} width={100} alt="logo"/>
-        <p className="my-4">We bring you authentic, homemade,<br />
-pickles made with love, tradition, and the <br />
-finest ingredients</p>
+          {/* Shop Section */}
+          <div>
+            <h3 className="font-bold text-gray-900 mb-4">SHOP</h3>
+            <ul className="space-y-2">
+              {["Pickle", "Chutney", "Super Seeds", "Healthy Mix Nuts", "Gifting"].map((link, index) => (
+                <li key={index}>
+                  <Link
+                    href="#"
+                    className="text-gray-600 hover:text-gray-900 text-sm transition-colors duration-300"
+                  >
+                    {link}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
 
+          {/* Help Section */}
+          <div>
+            <h3 className="font-bold text-gray-900 mb-4">HELP</h3>
+            <ul className="space-y-2">
+              <li>
+                <Link
+                  href="tel:+919995990070"
+                  className="text-gray-600 hover:text-gray-900 text-sm transition-colors duration-300"
+                >
+                  +91 999 599 0070
+                </Link>
+              </li>
+              <li>
+                <Link
+                  href="mailto:customercare@chakhleodisha.com"
+                  className="text-gray-600 hover:text-gray-900 text-sm transition-colors duration-300"
+                >
+                  customercare@chakhleodisha.com
+                </Link>
+              </li>
+              {["Track Order", "Terms & Conditions", "Privacy Policy"].map((link, index) => (
+                <li key={index}>
+                  <Link
+                    href="#"
+                    className="text-gray-600 hover:text-gray-900 text-sm transition-colors duration-300"
+                  >
+                    {link}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
 
-  <div className='flex my-4'>
-  <svg className='mx-2' width="29" height="29" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg">
-<circle cx="14.3125" cy="14.7847" r="14" fill="white"/>
-<circle cx="14.3125" cy="14.7847" r="13.5" stroke="black" stroke-opacity="0.2"/>
-<path d="M20.5196 11.7678C20.1006 11.954 19.6583 12.0704 19.1927 12.1402C19.6583 11.8609 20.0308 11.4186 20.1937 10.8832C19.7514 11.1392 19.2626 11.3255 18.7271 11.4419C18.3081 10.9996 17.7029 10.7202 17.0511 10.7202C15.794 10.7202 14.7697 11.7445 14.7697 13.0016C14.7697 13.1878 14.793 13.3507 14.8396 13.5137C12.954 13.4206 11.2546 12.5127 10.1139 11.116C9.92768 11.4651 9.81128 11.8376 9.81128 12.2566C9.81128 13.0481 10.207 13.7465 10.8356 14.1655C10.4631 14.1422 10.1139 14.0491 9.788 13.8862V13.9094C9.788 15.0268 10.5795 15.958 11.627 16.1675C11.4408 16.2141 11.2313 16.2373 11.0218 16.2373C10.8821 16.2373 10.7192 16.2141 10.5795 16.1908C10.8821 17.0987 11.7202 17.7738 12.7212 17.7738C11.9297 18.379 10.952 18.7515 9.88112 18.7515C9.69489 18.7515 9.50866 18.7515 9.3457 18.7282C10.37 19.38 11.5572 19.7525 12.8608 19.7525C17.0743 19.7525 19.379 16.2606 19.379 13.2343C19.379 13.1412 19.379 13.0248 19.379 12.9317C19.8213 12.6291 20.217 12.2334 20.5196 11.7678Z" fill="black"/>
-</svg>
+        {/* Copyright Section */}
+        <div className="text-center mt-8 pt-8 border-t border-gray-200">
+          <p className="text-gray-600 font-inter font-bold text-lg">
+            © Chakh Kar Dekho 2024-2025. All Rights Reserved
+          </p>
+        </div>
+      </div>
+    </footer>
+  );
+};
 
-<svg className='mx-2' width="29" height="29" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg">
-<circle cx="14.3125" cy="14.7847" r="14" fill="black"/>
-<path d="M13.0212 21.0885V15.5349H11.1523V13.3706H13.0212V11.7745C13.0212 9.92218 14.1525 8.91357 15.8049 8.91357C16.5964 8.91357 17.2767 8.9725 17.4749 8.99884V10.9346L16.3289 10.9351C15.4303 10.9351 15.2563 11.3621 15.2563 11.9888V13.3706H17.3995L17.1204 15.5349H15.2563V21.0885H13.0212Z" fill="white"/>
-</svg>
-
-<svg className='mx-2' width="29" height="29" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg">
-<circle cx="14.3125" cy="14.7847" r="14" fill="white"/>
-<circle cx="14.3125" cy="14.7847" r="13.5" stroke="black" stroke-opacity="0.2"/>
-<path d="M14.3133 9.23188C16.122 9.23188 16.3362 9.23865 17.0507 9.27123C17.4803 9.27649 17.9058 9.35537 18.3087 9.50446C18.6009 9.61715 18.8663 9.78978 19.0878 10.0112C19.3092 10.2327 19.4819 10.4981 19.5945 10.7903C19.7436 11.1932 19.8225 11.6187 19.8278 12.0483C19.86 12.7628 19.8671 12.977 19.8671 14.7857C19.8671 16.5945 19.8604 16.8086 19.8278 17.5232C19.8225 17.9528 19.7436 18.3783 19.5945 18.7812C19.4819 19.0734 19.3092 19.3388 19.0878 19.5603C18.8663 19.7817 18.6009 19.9543 18.3087 20.067C17.9058 20.2161 17.4803 20.295 17.0507 20.3003C16.3365 20.3325 16.1223 20.3396 14.3133 20.3396C12.5042 20.3396 12.29 20.3328 11.5758 20.3003C11.1462 20.295 10.7207 20.2161 10.3178 20.067C10.0256 19.9543 9.76019 19.7817 9.53874 19.5603C9.31729 19.3388 9.14466 19.0734 9.03197 18.7812C8.88288 18.3783 8.804 17.9528 8.79874 17.5232C8.76648 16.8086 8.75939 16.5945 8.75939 14.7857C8.75939 12.977 8.76616 12.7628 8.79874 12.0483C8.804 11.6187 8.88288 11.1932 9.03197 10.7903C9.14466 10.4981 9.31729 10.2327 9.53874 10.0112C9.76019 9.78978 10.0256 9.61715 10.3178 9.50446C10.7207 9.35537 11.1462 9.27649 11.5758 9.27123C12.2904 9.23897 12.5045 9.23188 14.3133 9.23188ZM14.3133 8.01123C12.4745 8.01123 12.2429 8.01897 11.5204 8.05188C10.9581 8.06306 10.4018 8.16951 9.87519 8.36671C9.42342 8.53693 9.01422 8.80367 8.67616 9.14833C8.33119 9.48651 8.06422 9.89594 7.8939 10.348C7.6967 10.8746 7.59025 11.4309 7.57906 11.9932C7.5468 12.7151 7.53906 12.9467 7.53906 14.7854C7.53906 16.6241 7.5468 16.8557 7.57971 17.5783C7.59089 18.1406 7.69735 18.6968 7.89455 19.2235C8.06468 19.6755 8.33142 20.0849 8.67616 20.4232C9.01441 20.7679 9.42383 21.0346 9.87584 21.2048C10.4025 21.402 10.9588 21.5084 11.521 21.5196C12.2436 21.5519 12.4742 21.5603 14.3139 21.5603C16.1536 21.5603 16.3842 21.5525 17.1068 21.5196C17.669 21.5084 18.2253 21.402 18.752 21.2048C19.2018 21.0304 19.6103 20.7641 19.9514 20.4228C20.2925 20.0815 20.5585 19.6728 20.7326 19.2228C20.9298 18.6962 21.0363 18.1399 21.0475 17.5777C21.0797 16.8557 21.0875 16.6241 21.0875 14.7854C21.0875 12.9467 21.0797 12.7151 21.0468 11.9925C21.0356 11.4303 20.9292 10.874 20.732 10.3474C20.5618 9.89535 20.2951 9.48593 19.9504 9.14768C19.6121 8.80295 19.2027 8.5362 18.7507 8.36607C18.224 8.16887 17.6678 8.06241 17.1055 8.05123C16.3836 8.01897 16.152 8.01123 14.3133 8.01123Z" fill="black"/>
-<path d="M14.3146 11.3081C13.6266 11.3081 12.9541 11.5121 12.382 11.8944C11.8099 12.2766 11.364 12.8199 11.1007 13.4556C10.8374 14.0912 10.7686 14.7907 10.9028 15.4655C11.037 16.1403 11.3683 16.7601 11.8548 17.2466C12.3413 17.7331 12.9612 18.0645 13.636 18.1987C14.3108 18.3329 15.0102 18.264 15.6459 18.0007C16.2815 17.7374 16.8248 17.2916 17.2071 16.7195C17.5893 16.1474 17.7934 15.4748 17.7934 14.7868C17.7934 13.8642 17.4269 12.9794 16.7745 12.327C16.1221 11.6746 15.2373 11.3081 14.3146 11.3081ZM14.3146 17.0449C13.868 17.0449 13.4315 16.9124 13.0601 16.6643C12.6888 16.4162 12.3994 16.0635 12.2285 15.6509C12.0576 15.2383 12.0128 14.7843 12.1 14.3463C12.1871 13.9083 12.4022 13.5059 12.718 13.1901C13.0338 12.8743 13.4361 12.6593 13.8741 12.5721C14.3121 12.485 14.7662 12.5297 15.1788 12.7006C15.5914 12.8715 15.944 13.161 16.1922 13.5323C16.4403 13.9036 16.5727 14.3402 16.5727 14.7868C16.5727 15.3857 16.3348 15.96 15.9113 16.3835C15.4879 16.807 14.9135 17.0449 14.3146 17.0449Z" fill="black"/>
-<path d="M17.9301 11.9827C18.379 11.9827 18.743 11.6188 18.743 11.1698C18.743 10.7209 18.379 10.3569 17.9301 10.3569C17.4811 10.3569 17.1172 10.7209 17.1172 11.1698C17.1172 11.6188 17.4811 11.9827 17.9301 11.9827Z" fill="black"/>
-</svg>
-<svg className='relative mx-4' width="29" height="29" viewBox="0 0 29 29" fill="none" xmlns="http://www.w3.org/2000/svg">
-
-<circle cx="14.3125" cy="14.7847" r="14" fill="white"/>
-
-<circle cx="14.3125" cy="14.7847" r="13.5" stroke="black" stroke-opacity="0.2"/>
-<svg  className='absolute bottom-0' width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
-<path d="M2.7875 11.7847H0.449998V4.42842H2.7875V11.7847ZM1.61875 3.39717C0.862501 3.39717 0.3125 2.84717 0.3125 2.09092C0.3125 1.33467 0.931251 0.784668 1.61875 0.784668C2.375 0.784668 2.925 1.33467 2.925 2.09092C2.925 2.84717 2.375 3.39717 1.61875 3.39717ZM11.3125 11.7847H8.975V7.79717C8.975 6.62842 8.49375 6.28467 7.80625 6.28467C7.11875 6.28467 6.43125 6.83467 6.43125 7.86592V11.7847H4.09375V4.42842H6.29375V5.45967C6.5 4.97842 7.325 4.22217 8.49375 4.22217C9.8 4.22217 11.175 4.97842 11.175 7.24717V11.7847H11.3125Z" fill="black"/>
-</svg>
-</svg>
-
-
-
-
-    
-  </div>
-    </div>
-
-
-    <div className='flex flex-col gap-y-2'>
-    <Link href="#" className="hover:underline font-bold">
-        LIKE
-      </Link>
-      <Link href="#" className="hover:underline">
-        Shop
-      </Link>
-      <Link href="#" className="hover:underline">
-        Our Story
-      </Link>
-      <Link href="#" className="hover:underline">
-        Offers
-      </Link>
-      <Link href="#" className="hover:underline">
-        Product
-      </Link>
-      <Link href="#" className="hover:underline">
-        Contact Us
-      </Link>
-    </div>
-
-    <div className='flex flex-col gap-y-2'>
-    <Link href="#" className="hover:underline font-bold">
-        SHOP
-      </Link>
-      <Link href="#" className="hover:underline">
-        Pickle
-      </Link>
-      <Link href="#" className="hover:underline">
-        Chutney
-      </Link>
-      <Link href="#" className="hover:underline">
-        Super Seeds
-      </Link>
-      <Link href="#" className="hover:underline">
-        Healty Mix Nuts
-      </Link>
-      <Link href="#" className="hover:underline">
-        Gifting
-      </Link>
-    </div>
-
-    <div className='flex flex-col gap-y-2'>
-    <Link href="#" className="hover:underline font-bold">
-        Help
-      </Link>
-      <Link href="#" className="hover:underline">
-        +91 962 592 0070
-      </Link>
-      <Link href="#" className="hover:underline">
-        customercare@chakhkardekho.com
-      </Link>
-      <Link href="#" className="hover:underline">
-        Track Order
-      </Link>
-      <Link href="#" className="hover:underline">
-        Terms & condition
-      </Link>
-      <Link href="#" className="hover:underline">
-        Privacy policy
-      </Link>
-    </div>
-   
-
-   </div>
-
-   <div className="mt-10 mb-4">
-      <hr className="border-t border-gray-300" />
-    </div>
-     <div className="flex justify-center">
-    <div>Chak Kar Dekho ©2024-2025. All Rights Reserved.</div>
-    
-    </div>
-
-   </div>
-   
-
-  )
-}
-export default Footer
+export default Footer;

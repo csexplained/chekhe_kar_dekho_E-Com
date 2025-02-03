@@ -1,18 +1,11 @@
 'use client';
 import React, { useState, useEffect } from 'react';
-import carusalimg1 from '@/public/carusalimg.png';
-import carusalimg2 from '@/public/carusalimg.png';
-import carusalimg3 from '@/public/carusalimg.png';
-import carusalimg4 from '@/public/carusalimg.png';
-import carusalimg5 from '@/public/carusalimg.png';
 import Image from 'next/image';
 
 const images = [
-    carusalimg1,
-    carusalimg2,
-    carusalimg3,
-    carusalimg4,
-    carusalimg5,
+    "https://res.cloudinary.com/djwzwq4cu/image/upload/v1738583359/erokgzycpskydxqqjumr.png",
+    "https://res.cloudinary.com/djwzwq4cu/image/upload/v1738583358/w4jym1e33ky4ndzt6tv8.png",
+    "https://res.cloudinary.com/djwzwq4cu/image/upload/v1738583357/t5hzkrrrbkqtnaundffr.png",
 ];
 
 const Carousel = () => {

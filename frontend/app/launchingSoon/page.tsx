@@ -1,83 +1,51 @@
-import Navbar from '@/components/Navbar'
-import Image from 'next/image'
-import React from 'react'
-import comingSoon from '../../public/Coming soon.png'
-import Footer from '@/components/Footer'
+"use client";
+import chutney from '@/public/Garlic Chutney (1) (1) 1.png';
+import pickle from "@/public/mango_pickle.png";
+import React from "react";
+import { Carousel } from "@/components/ui/apple-cards-carousel";
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import ComingSooncard from '@/components/ComingSoonproductCard';
+
+const products = [
+  { price: 169, discount: 10, src: pickle, productname: "Dry Fruits Mix Pickle 475gm", rating: 4.9, noofreviews: 120 },
+  { price: 199, discount: 15, src: chutney, productname: "Garlic Chutney 200gm", rating: 4.7, noofreviews: 95 },
+  { price: 149, discount: 5, src: pickle, productname: "Spicy Mango Pickle 500gm", rating: 4.5, noofreviews: 80 },
+  { price: 179, discount: 20, src: chutney, productname: "Mixed Vegetable Pickle 300gm", rating: 4.8, noofreviews: 110 },
+  { price: 129, discount: 0, src: pickle, productname: "Lemon Pickle 250gm", rating: 4.6, noofreviews: 70 },
+  { price: 189, discount: 12, src: chutney, productname: "Sweet Tamarind Chutney 400gm", rating: 4.4, noofreviews: 60 },
+  { price: 159, discount: 8, src: pickle, productname: "Green Chili Pickle 350gm", rating: 4.3, noofreviews: 50 },
+  { price: 209, discount: 18, src: pickle, productname: "Special Mixed Pickle Combo 600gm", rating: 4.9, noofreviews: 150 },
+  { price: 139, discount: 0, src: chutney, productname: "Red Chili Chutney 200gm", rating: 4.2, noofreviews: 40 },
+  { price: 169, discount: 10, src: chutney, productname: "Garlic and Ginger Pickle 450gm", rating: 4.7, noofreviews: 90 },
+];
+
 
 const page = () => {
+  const cards = products.map((product, index) => (
+    <ComingSooncard key={index} carddata={product} />
+  ));
+
   return (
-    <div className='bg-custom-bg-fan'>
-
-      <div className='bg-custom-bg-fan mx-20 my-20'>
-        <div className='flex justify-between'>
-          <p className='text-6xl font-intel font-bold'>Launching Soon</p>
-          <div className="">
-            <button className="px-8 py-4 bg-green-900 rounded-full border text-white mx-4">Best Sellers</button>
-            <button className="border border-red-900 text-red-900 bg-white px-6 py-4 rounded-full hover:bg-brown-500 hover:text-white transition">
-              New Launches
-            </button>
-
-          </div>
+    <div className="bg-[#FFF9EA] py-6 px-4 sm:px-8 md:px-16">
+      {/* Header Section */}
+      <div className="flex flex-row justify-between items-start my-8">
+        <div className="text-4xl sm:text-4xl md:text-5xl font-inter font-semibold text-left md:text-left mb-4 md:mb-0">
+          Coming Soon
         </div>
-
-        <div className='my-12 flex gap-4'>
-
-          <div className='flex flex-col border border-custom-bg-fan-900 rounded-xl justify-center items-center'>
-            <Image src={comingSoon} alt='comingSoon' height={350} width={350} />
-            <p className='font-bold font-intel text-xl my-4'>Dry fruits Mix pickle 475g</p>
-            <button className='bg-custom-red text-white px-24 rounded-full py-2'>Notify me</button>
-
-          </div>
-          <div className='flex flex-col border border-custom-bg-fan-900 rounded-xl justify-center items-center'>
-            <Image src={comingSoon} alt='comingSoon' height={350} width={350} />
-            <p className='font-bold font-intel text-xl my-4'>Dry fruits Mix pickle 475g</p>
-            <button className='bg-custom-red text-white px-24 rounded-full py-2'>Notify me</button>
-
-          </div>
-          <div className='flex flex-col border border-custom-bg-fan-900 rounded-xl justify-center items-center'>
-            <Image src={comingSoon} alt='comingSoon' height={350} width={350} />
-            <p className='font-bold font-intel text-xl my-4'>Dry fruits Mix pickle 475g</p>
-            <button className='bg-custom-red text-white px-24 rounded-full py-2'>Notify me</button>
-
-          </div>
-          <div className='flex flex-col border border-custom-bg-fan-900 rounded-xl justify-center items-center'>
-            <Image src={comingSoon} alt='comingSoon' height={350} width={350} />
-            <p className='font-bold font-intel text-xl my-4'>Dry fruits Mix pickle 475g</p>
-            <button className='bg-custom-red text-white px-24 rounded-full py-2'>Notify me</button>
-
-          </div>
+        <div className="flex  flex-col min-w-32 sm:flex-row gap-3">
+          <button className="font-poppins min-w-32 sm:w-44 font-medium h-12 sm:h-16  bg-green-900 rounded-full border text-white">
+            Best Sellers
+          </button>
+          <button className="border h-12 min-w-32 sm:w-44 sm:h-16  border-red-900 text-red-900 bg-transparent rounded-full">
+            New Launches
+          </button>
         </div>
-
-
       </div>
 
-
-      <div className="bg-custom-green flex my-20 py-2 justify-between">
-        <p className="text-white text-2xl py-4">RY JAR HAS A STORY</p>
-        <svg className="mx-8 " width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M14 0C14.4753 7.52634 20.4736 13.5247 28 14C20.4736 14.4753 14.4753 20.4736 14 28C13.5247 20.4736 7.52634 14.4753 0 14C7.52634 13.5247 13.5247 7.52634 14 0Z" fill="#FEC136" />
-        </svg>
-
-        <p className="text-white font-intel text-2xl py-4">EVERY JAR HAS A STORY</p>
-        <svg className="mx-8 " width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M14 0C14.4753 7.52634 20.4736 13.5247 28 14C20.4736 14.4753 14.4753 20.4736 14 28C13.5247 20.4736 7.52634 14.4753 0 14C7.52634 13.5247 13.5247 7.52634 14 0Z" fill="#FEC136" />
-        </svg>
-
-        <p className="text-white font-intel text-2xl py-4">EVERY JAR HAS A STORY</p>
-        <svg className='mx-8 ' width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M14 0C14.4753 7.52634 20.4736 13.5247 28 14C20.4736 14.4753 14.4753 20.4736 14 28C13.5247 20.4736 7.52634 14.4753 0 14C7.52634 13.5247 13.5247 7.52634 14 0Z" fill="#FEC136" />
-        </svg>
-
-        <p className="text-white font-intel text-2xl py-4">EVERY JAR HAS A STORY</p>
-
-
-      </div>
-
-      <Footer />
-
-
+      {/* Carousel Section */}
+      <Carousel items={cards} />
     </div>
-  )
+  );
 }
 
 export default page

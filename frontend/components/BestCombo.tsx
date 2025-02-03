@@ -1,97 +1,59 @@
 import Image from 'next/image';
 import React from 'react';
-import Best_combo from '../public/best_Combo.png';
-import logo from '../public/Logo.png'
+import logo from '@/public/Logo.png';
+
+const list = [
+  "https://res.cloudinary.com/djwzwq4cu/image/upload/v1738584723/wadojc3lihtotsudkl88.png",
+  "https://res.cloudinary.com/djwzwq4cu/image/upload/v1738584723/wadojc3lihtotsudkl88.png",
+  "https://res.cloudinary.com/djwzwq4cu/image/upload/v1738584723/wadojc3lihtotsudkl88.png",
+  "https://res.cloudinary.com/djwzwq4cu/image/upload/v1738584723/wadojc3lihtotsudkl88.png",
+];
 
 const BestCombo = () => {
   return (
-    <div className="my-8 mx-20 ">
-      <div className="flex  gap-4 ">
-        {/* First Div: 1/4 Width */}
-        <div className="w-1/4 bg-gray-500 w-[400px] relative rounded-xl ">
-           <div className='absolute top-0 right-0'>
-           <svg width="43" height="43" viewBox="0 0 43 43" fill="none" xmlns="http://www.w3.org/2000/svg">
-<circle cx="21.101" cy="21.7885" r="20.9135" fill="white"/>
-<path d="M28.4219 14.4688L13.7825 29.1082" stroke="#292D32" stroke-width="2.61418" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M28.4219 25.2078V14.4688H17.6828" stroke="#292D32" stroke-width="2.61418" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
-
-           </div>
+    <div className="flex flex-col justify-center items-center min-h-screen w-full bg-white">
+      <div className="container px-4 md:px-16 py-10 w-full flex justify-center items-center">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 w-full">
+          {list.map((image, index) => (
+            <div
+              key={index}
+              className={`relative rounded-xl overflow-hidden ${index === 0 || index === 3 ? 'md:col-span-1' : 'md:col-span-2'
+                } h-[450px]`}
+            >
+              <Image
+                src={image}
+                alt={`Dynamic Image ${index + 1}`}
+                layout="fill"
+                objectFit="cover"
+                className="rounded-xl"
+              />
+              <div className="absolute top-0 right-0 p-2">
+                <ArrowIcon />
+              </div>
+              <div className="absolute bottom-4 left-4">
+                <LogoIcon />
+              </div>
+            </div>
+          ))}
         </div>
 
-        {/* Second Div: 3/4 Width */}
-        <div className=" relative">
-          <Image
-            src={Best_combo}
-            width={400}
-            height={400}
-           
-            alt="best_combo"
-            className=' w-[900px] '
-          />
-          <div className='absolute top-1 right-2'>
-          <svg width="43" height="43" viewBox="0 0 43 43" fill="none" xmlns="http://www.w3.org/2000/svg">
-<circle cx="21.101" cy="21.7885" r="20.9135" fill="white"/>
-<path d="M28.4219 14.4688L13.7825 29.1082" stroke="#292D32" stroke-width="2.61418" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M28.4219 25.2078V14.4688H17.6828" stroke="#292D32" stroke-width="2.61418" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
-</div>
-<p className='absolute top-4 left-4 text-white font-inter text-6xl'> The Best Combo <br /><span className='text-lg my-0 '>Perfectly Paired Delights for Ultimate <br />Flavor Experience</span> </p>
-<div className='absolute bottom-8 left-6'>
-<svg width="114" height="97" viewBox="0 0 114 97" fill="none" xmlns="http://www.w3.org/2000/svg">
-<rect x="0.5" y="0.625" width="113" height="95" rx="9.5" fill="#B81F2E"/>
-<rect x="0.5" y="0.625" width="113" height="95" rx="9.5" stroke="white"/>
-<path d="M11.8155 42.125V35.952L23.6507 26.1603C24.4312 25.5075 25.1052 24.8973 25.6729 24.3297C26.2405 23.7479 26.6733 23.1519 26.9713 22.5417C27.2835 21.9315 27.4396 21.2503 27.4396 20.4982C27.4396 19.6893 27.2622 19.0011 26.9075 18.4334C26.5669 17.8516 26.0915 17.4046 25.4813 17.0924C24.8853 16.7802 24.1899 16.6241 23.3952 16.6241C22.6006 16.6241 21.8981 16.7873 21.2879 17.1137C20.6919 17.4259 20.2236 17.8871 19.883 18.4973C19.5566 19.1075 19.3934 19.8596 19.3934 20.7536H11.2195C11.2195 18.5257 11.7162 16.6099 12.7096 15.0063C13.7171 13.4028 15.1362 12.1682 16.9668 11.3025C18.7974 10.4227 20.9402 9.98279 23.3952 9.98279C25.9354 9.98279 28.135 10.3872 29.994 11.1961C31.853 12.005 33.2863 13.1473 34.2938 14.6232C35.3155 16.0848 35.8264 17.8019 35.8264 19.7745C35.8264 20.9949 35.571 22.2082 35.0601 23.4144C34.5634 24.6064 33.6623 25.9333 32.3568 27.3949C31.0512 28.8566 29.1851 30.5879 26.7585 32.5888L23.7784 35.058V35.2708H36.167V42.125H11.8155ZM51.7636 42.5507C49.3228 42.5507 47.1587 42.125 45.2713 41.2736C43.3839 40.4079 41.901 39.2159 40.8225 37.6975C39.744 36.179 39.1905 34.4336 39.1621 32.4611H47.5489C47.5489 33.5537 47.9604 34.4265 48.7835 35.0793C49.6208 35.7178 50.6141 36.0371 51.7636 36.0371C52.6434 36.0371 53.4097 35.8527 54.0625 35.4837C54.7295 35.1005 55.2474 34.5684 55.6164 33.8872C55.9995 33.2061 56.1911 32.4043 56.1911 31.4819C56.1911 30.5453 55.9995 29.7364 55.6164 29.0553C55.2474 28.3599 54.7295 27.8277 54.0625 27.4588C53.4097 27.0756 52.6434 26.8841 51.7636 26.8841C50.8412 26.8841 49.9968 27.104 49.2305 27.5439C48.4784 27.9838 47.9179 28.587 47.5489 29.3533L39.971 27.8632L41.2056 10.4085H62.5344V17.3053H48.2726L47.6766 24.2871H47.8469C48.3436 23.3222 49.2021 22.5275 50.4226 21.9031C51.643 21.2787 53.055 20.9665 54.6585 20.9665C56.5459 20.9665 58.2275 21.4064 59.7034 22.2862C61.1792 23.1519 62.3428 24.3581 63.1943 25.9049C64.0599 27.4375 64.4928 29.2114 64.4928 31.2264C64.4928 33.4402 63.9677 35.3986 62.9176 37.1014C61.8675 38.8043 60.3845 40.1383 58.4688 41.1033C56.5672 42.0682 54.3321 42.5507 51.7636 42.5507ZM85.7089 36.1649V34.5045C85.7089 33.1564 85.9927 31.9147 86.5604 30.7794C87.1422 29.6442 87.9936 28.736 89.1147 28.0548C90.2358 27.3595 91.5981 27.0118 93.2017 27.0118C94.8478 27.0118 96.2243 27.3524 97.3312 28.0335C98.4523 28.7147 99.2966 29.6229 99.8643 30.7582C100.446 31.8934 100.737 33.1422 100.737 34.5045V36.1649C100.737 37.513 100.446 38.7618 99.8643 39.9112C99.2824 41.0465 98.431 41.9547 97.3099 42.6359C96.1888 43.317 94.8194 43.6576 93.2017 43.6576C91.5839 43.6576 90.2145 43.317 89.0934 42.6359C87.9724 41.9547 87.128 41.0465 86.5604 39.9112C85.9927 38.7618 85.7089 37.513 85.7089 36.1649ZM91.0731 34.5045V36.1649C91.0731 36.7609 91.2221 37.3498 91.5201 37.9316C91.8181 38.4992 92.3786 38.776 93.2017 38.7618C94.0389 38.776 94.5924 38.5063 94.862 37.9529C95.1458 37.3853 95.2877 36.7893 95.2877 36.1649V34.5045C95.2877 33.8801 95.16 33.2841 94.9046 32.7165C94.6491 32.1347 94.0815 31.8508 93.2017 31.865C92.3786 31.8508 91.8181 32.1347 91.5201 32.7165C91.2221 33.2841 91.0731 33.8801 91.0731 34.5045ZM69.1057 18.029V16.3687C69.1057 15.0063 69.3966 13.7575 69.9784 12.6223C70.5744 11.487 71.433 10.5788 72.554 9.89764C73.6751 9.21648 75.0232 8.8759 76.5984 8.8759C78.2446 8.8759 79.6282 9.21648 80.7492 9.89764C81.8703 10.5788 82.7147 11.487 83.2823 12.6223C83.8641 13.7575 84.1479 15.0063 84.1337 16.3687V18.029C84.1479 19.3913 83.857 20.6401 83.261 21.7754C82.6792 22.8964 81.8277 23.7905 80.7067 24.4574C79.5856 25.1244 78.2162 25.465 76.5984 25.4792C74.9807 25.465 73.6112 25.1173 72.4902 24.4361C71.3833 23.755 70.5389 22.8539 69.9571 21.7328C69.3895 20.5975 69.1057 19.3629 69.1057 18.029ZM74.5549 16.3687V18.029C74.5549 18.6534 74.6968 19.2494 74.9807 19.817C75.2645 20.3705 75.8037 20.6401 76.5984 20.6259C77.4499 20.6401 78.0104 20.3705 78.28 19.817C78.5638 19.2494 78.6987 18.6534 78.6845 18.029V16.3687C78.6987 15.7443 78.5709 15.1482 78.3013 14.5806C78.0459 13.9988 77.4782 13.7008 76.5984 13.6866C75.7753 13.7008 75.229 14.0059 74.9594 14.6019C74.6898 15.1979 74.5549 15.7868 74.5549 16.3687ZM71.7026 42.125L93.4997 10.4085H97.9272L76.1301 42.125H71.7026ZM32.5058 86.5507C29.625 86.5507 27.0139 85.9263 24.6724 84.6775C22.3451 83.4287 20.5003 81.5981 19.138 79.1857C17.7757 76.7591 17.0945 73.7932 17.0945 70.288C17.0945 66.7545 17.7757 63.7745 19.138 61.3478C20.5003 58.9212 22.3451 57.0906 24.6724 55.856C27.0139 54.6072 29.625 53.9828 32.5058 53.9828C35.3865 53.9828 37.9905 54.6072 40.3178 55.856C42.6451 57.0906 44.4899 58.9212 45.8522 61.3478C47.2287 63.7745 47.917 66.7545 47.917 70.288C47.917 73.8074 47.2287 76.7803 45.8522 79.207C44.4899 81.6194 42.6451 83.45 40.3178 84.6988C37.9905 85.9334 35.3865 86.5507 32.5058 86.5507ZM32.5058 79.058C33.939 79.058 35.1381 78.7245 36.1031 78.0575C37.0823 77.3764 37.8202 76.383 38.3169 75.0774C38.8136 73.7719 39.0619 72.1754 39.0619 70.288C39.0619 68.3865 38.8136 66.7829 38.3169 65.4774C37.8202 64.1576 37.0823 63.1643 36.1031 62.4973C35.1381 61.8161 33.939 61.4755 32.5058 61.4755C31.0867 61.4755 29.8875 61.8161 28.9084 62.4973C27.9434 63.1643 27.2055 64.1576 26.6946 65.4774C26.1979 66.7829 25.9496 68.3865 25.9496 70.288C25.9496 72.1754 26.1979 73.7719 26.6946 75.0774C27.2055 76.383 27.9434 77.3764 28.9084 78.0575C29.8875 78.7245 31.0867 79.058 32.5058 79.058ZM50.9121 86.125V54.4085H73.2201V61.3478H59.5118V68.5H71.8578V75.269H59.5118V86.125H50.9121ZM75.4064 86.125V54.4085H97.7144V61.3478H84.006V68.5H96.352V75.269H84.006V86.125H75.4064Z" fill="white"/>
-</svg>
-
-</div>
-<div className='absolute right-4 bottom-4'>
-    <Image src={logo} alt='logo' height={100} width={100}/>
-
-</div>
-
-
-
-          
-        </div>
-      </div>
-
-      <div className="flex  gap-4 my-4 ">
-        {/* First Div: 1/4 Width */}
-        
-
-        {/* Second Div: 3/4 Width */}
-        <div className="relative ">
-          <Image
-            src={Best_combo}
-            width={400}
-            height={400}
-           
-            alt="best_combo"
-            className=' w-[900px] '
-          />
-          <div className='absolute top-1 right-2'>
-          <svg width="43" height="43" viewBox="0 0 43 43" fill="none" xmlns="http://www.w3.org/2000/svg">
-<circle cx="21.101" cy="21.7885" r="20.9135" fill="white"/>
-<path d="M28.4219 14.4688L13.7825 29.1082" stroke="#292D32" stroke-width="2.61418" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M28.4219 25.2078V14.4688H17.6828" stroke="#292D32" stroke-width="2.61418" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
-          </div>
-          
-        </div>
-        <div className="w-1/4 bg-gray-500 w-[400px] relative rounded-xl ">
-           <div className='absolute top-0 right-0'>
-           <svg width="43" height="43" viewBox="0 0 43 43" fill="none" xmlns="http://www.w3.org/2000/svg">
-<circle cx="21.101" cy="21.7885" r="20.9135" fill="white"/>
-<path d="M28.4219 14.4688L13.7825 29.1082" stroke="#292D32" stroke-width="2.61418" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-<path d="M28.4219 25.2078V14.4688H17.6828" stroke="#292D32" stroke-width="2.61418" stroke-miterlimit="10" stroke-linecap="round" stroke-linejoin="round"/>
-</svg>
-
-           </div>
-        </div>
       </div>
     </div>
   );
 };
+
+// Reusable Arrow Icon Component
+const ArrowIcon = () => (
+  <svg width="43" height="43" viewBox="0 0 43 43" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <circle cx="21.101" cy="21.7885" r="20.9135" fill="white" />
+    <path d="M28.4219 14.4688L13.7825 29.1082" stroke="#292D32" strokeWidth="2.61418" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round" />
+    <path d="M28.4219 25.2078V14.4688H17.6828" stroke="#292D32" strokeWidth="2.61418" strokeMiterlimit="10" strokeLinecap="round" strokeLinejoin="round" />
+  </svg>
+);
+
+// Reusable Logo Icon Component
+const LogoIcon = () => (
+  <Image src={logo} alt="logo" height={100} width={100} />
+);
 
 export default BestCombo;

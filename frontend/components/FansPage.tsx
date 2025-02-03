@@ -1,18 +1,30 @@
 import React from 'react';
 
+const fans = [
+  { id: 1 },
+  { id: 2 },
+  { id: 3 },
+  { id: 4 },
+  { id: 5 },
+  { id: 6 }, // Added an extra item for better dynamic behavior
+];
+
 const FansPage = () => {
   return (
-    <div className='bg-custom-bg-fan mx-4 md:mx-10 lg:mx-20'>
-      <div className='text-4xl md:text-5xl lg:text-6xl text-center font-intel my-10 md:my-16 lg:my-20'>
-        What Fan Have To <span className='text-custom-red'>Say!!</span>
+    <div className="bg-[#FFF9EA]  py-6 px-4 sm:px-8 md:px-16">
+      {/* Heading */}
+      <div className="text-4xl md:text-5xl lg:text-6xl text-center font-intel my-10 md:my-16 lg:my-16">
+        What Fan Have To <span className="text-custom-red">Say!!</span>
       </div>
 
-      <div className='flex flex-wrap gap-4 justify-center md:justify-start w-full my-8'>
-        <div className='bg-black h-60 w-48 md:h-72 md:w-56 lg:h-80 lg:w-64 rounded-xl'></div>
-        <div className='bg-black h-60 w-48 md:h-72 md:w-56 lg:h-80 lg:w-64 rounded-xl'></div>
-        <div className='bg-black h-60 w-48 md:h-72 md:w-56 lg:h-80 lg:w-64 rounded-xl'></div>
-        <div className='bg-black h-60 w-48 md:h-72 md:w-56 lg:h-80 lg:w-64 rounded-xl'></div>
-        <div className='bg-black h-60 w-48 md:h-72 md:w-56 lg:h-80 lg:w-64 rounded-xl'></div>
+      {/* Scrollable Fan Cards */}
+      <div className="flex overflow-x-auto scrollbar-hide snap-x snap-mandatory gap-6 px-4 py-4">
+        {fans.map((fan) => (
+          <div
+            key={fan.id}
+            className="min-w-[200px] md:min-w-[240px] lg:min-w-[260px] h-72 md:h-80 lg:h-80 bg-black rounded-xl snap-center"
+          ></div>
+        ))}
       </div>
     </div>
   );

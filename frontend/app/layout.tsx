@@ -1,8 +1,17 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import '@fontsource/inter/';
+import '@fontsource/poppins/600.css';
+import '@fontsource/poppins';
+import '@fontsource/poppins/400.css';
+import '@fontsource/poppins/700.css';
+import { Toaster } from "@/components/ui/toaster"
 import Navbar from "@/components/Navbar";
 import Topbar from "@/components/Topbar";
+import Footer from "@/components/Footer";
+import MovingBanner from "@/components/GreenLine";
+import ReduxProvider from "@/store/Provider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -29,9 +38,14 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <Topbar />
-        <Navbar />
-        {children}
+        <ReduxProvider>
+          <Topbar />
+          <Navbar />
+          {children}
+          <MovingBanner />
+          <Footer />
+          <Toaster />
+        </ReduxProvider>
       </body>
     </html>
   );

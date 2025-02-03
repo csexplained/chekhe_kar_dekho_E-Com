@@ -28,26 +28,32 @@ const genrateAccessandRefreshtokens = async (userId) => {
     }
 };
 
-
 const registerUser = asyncHandeler(async (req, res) => {
-    const { username, fullname, email, password, address, city, pinCode } = req.body;
+    const { mobileno, fullname, email, password, } = req.body;
 
     // Validate that all fields are provided and not empty
-    if ([fullname, username, email, password, address, city, pinCode].some((field) => field?.trim() === "")) {
+    if ([fullname, mobileno, email, password,].some((field) => field?.trim() === "")) {
         return res
             .status(400)
             .json(new ApiError(400, {}, "All Fields Are Required"));
     }
 
-    // Check if a user with the same username or email already exists
+    // Validate mobile number length
+    if (mobileno.length !== 10) {
+        return res
+            .status(400)
+            .json(new ApiError(400, {}, "Mobile Number Should be 10 Digit"));
+    }
+
+    // Check if a user with the same mobileno or email already exists
     const existingUser = await User.findOne({
-        $or: [{ username: username.toLowerCase() }, { email: email.toLowerCase() }]
+        $or: [{ mobileno: mobileno }, { email: email.toLowerCase() }]
     });
 
     if (existingUser) {
         return res
             .status(409)
-            .json(new ApiError(409, {}, "User with Email or Username already exists"));
+            .json(new ApiError(409, {}, "User with Email or mobileno already exists"));
     }
 
     // Create the user with all required fields
@@ -55,10 +61,7 @@ const registerUser = asyncHandeler(async (req, res) => {
         fullname,
         email: email.toLowerCase(),
         password,
-        username: username.toLowerCase(),
-        address,
-        city,
-        pinCode,
+        mobileno,
     });
 
     // Generate access and refresh tokens
@@ -81,9 +84,8 @@ const registerUser = asyncHandeler(async (req, res) => {
 
     return res
         .status(201)
-        // Uncomment the lines below if cookies are needed
-        // .cookie("accessToken", accessToken, options)
-        // .cookie("refreshToken", refreshToken, options)
+        .cookie("accessToken", accessToken, options)
+        .cookie("refreshToken", refreshToken, options)
         .json(
             new ApiResponse(
                 201,
@@ -96,24 +98,16 @@ const registerUser = asyncHandeler(async (req, res) => {
 
 
 const loginUser = asyncHandeler(async (req, res) => {
-    // get data from req.body
-    // username or email
-    // find the user in db
-    // check password 
-    // if password wrong send wrong 
-    // if right gen access or refreash token's
-    // send this token in cookis with secure cookies
-    //  
-    const { email, username, password } = req.body
+    const { email, mobileno, password } = req.body
 
-    if (!username && !email) {
+    if (!email && !mobileno) {
         return res
             .status(400)
-            .json(new ApiError(400, {}, "Username Or Email is Required"));
+            .json(new ApiError(400, {}, "mobileno Or Email is Required"));
     }
 
     const user = await User.findOne({
-        $or: [{ username }, { email }]
+        $or: [{ mobileno }, { email }]
     })
 
     if (!user) {

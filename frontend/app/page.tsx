@@ -1,11 +1,5 @@
 'use client'
-import Image from "next/image";
-import '@fontsource/inter/';
-import '@fontsource/poppins/600.css';
-import './globals.css';
-import '@fontsource/poppins';
-import '@fontsource/poppins/400.css';
-import '@fontsource/poppins/700.css';
+
 import BestCombo from "@/components/BestCombo";
 import chakKrDekho from '../public/chak_kr_dekho.png'
 import Definately from "@/components/Definately";
@@ -16,6 +10,93 @@ import FeaturesBannar from "@/components/FeaturesBannar";
 import HomePageCarousel from "@/components/CarousalHomepage";
 import Category from "@/components/Categorybannars";
 import TalksoftheTown from "@/components/TalksoftheTown";
+import Bannar from "@/components/Bannar";
+import chutney from '../public/Garlic Chutney (1) (1) 1.png';
+import pickle from "../public/mango_pickle.png";
+
+const products = [
+  {
+      price: 169,
+      discount: 10,
+      src: pickle,
+      productname: "Dry Fruits Mix Pickle 475gm",
+      rating: 4.9,
+      noofreviews: 120,
+  },
+  {
+      price: 199,
+      discount: 15,
+      src: chutney,
+      productname: "Garlic Chutney 200gm",
+      rating: 4.7,
+      noofreviews: 95,
+  },
+  {
+      price: 149,
+      discount: 5,
+      src: pickle,
+      productname: "Spicy Mango Pickle 500gm",
+      rating: 4.5,
+      noofreviews: 80,
+  },
+  {
+      price: 179,
+      discount: 20,
+      src: chutney,
+      productname: "Mixed Vegetable Pickle 300gm",
+      rating: 4.8,
+      noofreviews: 110,
+  },
+  {
+      price: 129,
+      discount: 0,
+      src: pickle,
+      productname: "Lemon Pickle 250gm",
+      rating: 4.6,
+      noofreviews: 70,
+  },
+  {
+      price: 189,
+      discount: 12,
+      src: chutney,
+      productname: "Sweet Tamarind Chutney 400gm",
+      rating: 4.4,
+      noofreviews: 60,
+  },
+  {
+      price: 159,
+      discount: 8,
+      src: pickle,
+      productname: "Green Chili Pickle 350gm",
+      rating: 4.3,
+      noofreviews: 50,
+  },
+  {
+      price: 209,
+      discount: 18,
+      src: pickle,
+      productname: "Special Mixed Pickle Combo 600gm",
+      rating: 4.9,
+      noofreviews: 150,
+  },
+  {
+      price: 139,
+      discount: 0,
+      src: chutney,
+      productname: "Red Chili Chutney 200gm",
+      rating: 4.2,
+      noofreviews: 40,
+  },
+  {
+      price: 169,
+      discount: 10,
+      src: chutney,
+      productname: "Garlic and Ginger Pickle 450gm",
+      rating: 4.7,
+      noofreviews: 90,
+  },
+];
+
 
 export default function Home() {
 
@@ -25,50 +106,12 @@ export default function Home() {
       <FeaturesBannar />
       <Category />
       <TalksoftheTown />
-      <div>
-        <BestCombo />
-      </div>
-      <div className="w-full my-8">
-        <Image src={chakKrDekho} alt='chak_Kr_Dekho' height={700} width={700} className="w-full" />
-      </div>
-      <div>
-        <Definately />
-      </div>
-      <div className="bg-custom-bg-fan my-4">
-        <FansPage />
-      </div>
-
-      <div className="bg-custom-bg-fan">
-        <CustomerHome />
-
-      </div>
-
-      <div className="bg-custom-green flex mt-20 py-2 justify-between">
-        <p className="text-white text-2xl py-4">RY JAR HAS A STORY</p>
-        <svg className="mx-8 " width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M14 0C14.4753 7.52634 20.4736 13.5247 28 14C20.4736 14.4753 14.4753 20.4736 14 28C13.5247 20.4736 7.52634 14.4753 0 14C7.52634 13.5247 13.5247 7.52634 14 0Z" fill="#FEC136" />
-        </svg>
-
-        <p className="text-white font-intel text-2xl py-4">EVERY JAR HAS A STORY</p>
-        <svg className="mx-8 " width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M14 0C14.4753 7.52634 20.4736 13.5247 28 14C20.4736 14.4753 14.4753 20.4736 14 28C13.5247 20.4736 7.52634 14.4753 0 14C7.52634 13.5247 13.5247 7.52634 14 0Z" fill="#FEC136" />
-        </svg>
-
-        <p className="text-white font-intel text-2xl py-4">EVERY JAR HAS A STORY</p>
-        <svg className='mx-8 ' width="28" height="28" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-          <path d="M14 0C14.4753 7.52634 20.4736 13.5247 28 14C20.4736 14.4753 14.4753 20.4736 14 28C13.5247 20.4736 7.52634 14.4753 0 14C7.52634 13.5247 13.5247 7.52634 14 0Z" fill="#FEC136" />
-        </svg>
-
-        <p className="text-white font-intel text-2xl py-4">EVERY JAR HAS A STORY</p>
-
-
-      </div>
-
-      <div className="bg-custom-bg-fan">
-        <Footer />
-      </div>
-
-
+      <BestCombo />
+      <Bannar imgLink={chakKrDekho} />
+      <Definately />
+      <FansPage />
+      <CustomerHome />
+      
     </>
   );
 }
