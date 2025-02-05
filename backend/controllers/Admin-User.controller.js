@@ -5,69 +5,82 @@ import { deletefromcloudinary, videodeletefromcloudinary, uploadOnCloudinary } f
 import { ApiResponse } from '../utils/apiresponse.js'
 import jwt from "jsonwebtoken"
 
-const genrateAccessandRefreshtokens = async (userid) => {
+const genrateAccessandRefreshtokens = async (userId) => {
     try {
-        const user = await User.findById(userid)
-        const accessToken = user.genrateAccessToken()
-        const refreshToken = user.genrateRefreshToken()
+        const user = await User.findById(userId);
 
-        user.refreshToken = refreshToken
-        await user.save({ validateBeforeSave: false })
+        if (!user) {
+            throw new Error("User not found");
+        }
 
-        return { accessToken, refreshToken }
+        // Generate tokens
+        const accessToken = user.genrateAccessToken();
+        const refreshToken = user.genrateRefreshToken();
 
+        // Update the user's refresh token in the database
+        user.refreshToken = refreshToken;
+        await user.save({ validateBeforeSave: false });
+
+        return { accessToken, refreshToken };
     } catch (error) {
-        return res
-            .status(500)
-            .json(new ApiError(500, "Something Want Wrong While Genrateing refreash tokens"))
+        console.error("Error generating tokens:", error.message);
+        throw new Error("Error generating tokens");
     }
-}
+};
 
 const registerUser = asyncHandeler(async (req, res) => {
+    const { mobileno, fullname, email, password, } = req.body;
 
-    const { username, fullname, email, password } = req.body
-    if ([fullname, username, email, password].some((field) => field?.trim() === "")) {
+    // Validate that all fields are provided and not empty
+    if ([fullname, mobileno, email, password,].some((field) => field?.trim() === "")) {
         return res
             .status(400)
-            .json(new ApiError(400, {}, "All Fields Are Required"))
+            .json(new ApiError(400, {}, "All Fields Are Required"));
     }
-    // await here
-    const exitedUser = await User.findOne({
-        $or: [{ username }, { email }]
-    })
 
-    if (exitedUser) {
+    // Validate mobile number length
+    if (mobileno.length !== 10) {
+        return res
+            .status(400)
+            .json(new ApiError(400, {}, "Mobile Number Should be 10 Digit"));
+    }
+
+    // Check if a user with the same mobileno or email already exists
+    const existingUser = await User.findOne({
+        $or: [{ mobileno: mobileno }, { email: email.toLowerCase() }]
+    });
+
+    if (existingUser) {
         return res
             .status(409)
-            .json(new ApiError(409, {}, 'User with Email or Username already exists'))
+            .json(new ApiError(409, {}, "User with Email or mobileno already exists"));
     }
 
+    // Create the user with all required fields
     const user = await User.create({
         fullname,
-        email,
+        email: email.toLowerCase(),
         password,
-        username: username.toLowerCase()
-    })
+        mobileno,
+    });
 
+    // Generate access and refresh tokens
+    const { accessToken, refreshToken } = await genrateAccessandRefreshtokens(user._id);
 
-    const { accessToken, refreshToken } = await genrateAccessandRefreshtokens(user._id)
+    // Fetch the newly created user, excluding sensitive fields
+    const createdUser = await User.findById(user._id).select("-password -refreshToken -watchHistory");
 
-
-    const createdUser = await User.findById(user._id).select(
-        // kya kya nhi chahiye - sign k sath do yha
-        "-password -refreshToken -watchHistory"
-    )
     if (!createdUser) {
         return res
             .status(500)
-            .json(new ApiError(500, {}, "Something went Wrong while registering Admin"))
+            .json(new ApiError(500, {}, "Something went Wrong while registering User"));
     }
 
-
+    // Define cookie options
     const options = {
         httpOnly: true,
-        secure: true
-    }
+        secure: true, // Use secure cookies (HTTPS required)
+    };
 
     return res
         .status(201)
@@ -75,37 +88,26 @@ const registerUser = asyncHandeler(async (req, res) => {
         .cookie("refreshToken", refreshToken, options)
         .json(
             new ApiResponse(
-                200,
-                {
-                    user: createdUser, refreshToken
-                },
-                "User logged In SuccessFully"
+                201,
+                { user: createdUser },
+                "User registered successfully"
             )
-        )
-
-})
+        );
+});
 
 
 
 const loginUser = asyncHandeler(async (req, res) => {
-    // get data from req.body
-    // username or email
-    // find the user in db
-    // check password 
-    // if password wrong send wrong 
-    // if right gen access or refreash token's
-    // send this token in cookis with secure cookies
-    //  
-    const { email, username, password } = req.body
+    const { email, mobileno, password } = req.body
 
-    if (!username && !email) {
+    if (!email && !mobileno) {
         return res
             .status(400)
-            .json(new ApiError(400, {}, "Username Or Email is Required"));
+            .json(new ApiError(400, {}, "mobileno Or Email is Required"));
     }
 
     const user = await User.findOne({
-        $or: [{ username }, { email }]
+        $or: [{ mobileno }, { email }]
     })
 
     if (!user) {
@@ -146,7 +148,7 @@ const loginUser = asyncHandeler(async (req, res) => {
                 {
                     user: loggedinuser, accessToken, refreshToken
                 },
-                "Admin logged In SuccessFully"
+                "User logged In SuccessFully"
             )
         )
 
@@ -193,7 +195,7 @@ const refreshAccessToken = asyncHandeler(async (req, res) => {
         // console.log(incomingrefreshtoken);
         const decodedToken = jwt.verify(incomingrefreshtoken, process.env.REFRESH_TOKEN_SECRET)
         if (!decodedToken) return res.status(401).json(new ApiError(401, {}, "Something Wrong Happend"))
-        const user = await User.findById(decodedToken?._id).select("-password -accessToken -watchHistory")
+        const user = await User.findById(decodedToken?._id).select("-password -accessToken  -watchHistory")
 
         if (!user) {
             throw new ApiError(401, {}, "Invaild Refresh token")
@@ -263,7 +265,7 @@ const changeCurrentPassword = asyncHandeler(async (req, res) => {
 
 const getCurrentUser = asyncHandeler(async (req, res) => {
     return res.status(200)
-        .json(new ApiResponse(200, req.user, "Current Admin Fatced Success"))
+        .json(new ApiResponse(200, req.user, "Current User Fatced Success"))
 })
 
 const updateAccountDetails = asyncHandeler(async (req, res) => {

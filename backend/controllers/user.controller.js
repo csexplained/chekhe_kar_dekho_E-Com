@@ -195,7 +195,7 @@ const refreshAccessToken = asyncHandeler(async (req, res) => {
         // console.log(incomingrefreshtoken);
         const decodedToken = jwt.verify(incomingrefreshtoken, process.env.REFRESH_TOKEN_SECRET)
         if (!decodedToken) return res.status(401).json(new ApiError(401, {}, "Something Wrong Happend"))
-        const user = await User.findById(decodedToken?._id).select("-password -accessToken -watchHistory")
+        const user = await User.findById(decodedToken?._id).select("-password -accessToken  -watchHistory")
 
         if (!user) {
             throw new ApiError(401, {}, "Invaild Refresh token")

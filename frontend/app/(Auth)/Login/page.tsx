@@ -1,7 +1,6 @@
 "use client"
 import React, { useState } from "react";
 import Image from "next/image";
-import Logo from "@/public/Logo.png";
 import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -9,6 +8,7 @@ import { useToast } from "@/hooks/use-toast";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/store/authSlice";
 import { isAxiosError } from "axios";
+import User from "@/types/user.type";
 
 // Validation helpers
 const validateEmail = (email: string) => {
@@ -83,28 +83,31 @@ const LoginPage = () => {
         setError("");
 
         try {
-            const response = await axios.post(
+            const response = await axios.post<{ data: { user: User, refreshToken: string } }>(
                 `${process.env.NEXT_PUBLIC_URL}/users/login`,
                 {
                     mobileno: formData.login,
                     email: formData.login,
                     password: formData.password,
+                },
+                {
+                    withCredentials: true,
                 }
             );
 
-            // Assuming the response contains user data
-            const userData = response.data.data;
+            console.log(response.data.data);
+            const { user } = response.data.data;
+            const refreshToken = response.data.data.refreshToken;
+            localStorage.setItem("refreshToken", refreshToken);
 
-            // Dispatch user data to Redux store
-            dispatch(setUser(userData));
-
+            dispatch(setUser(user));
             toast({
                 title: "Login Successful",
                 description: "You have successfully logged in",
             });
 
             // Redirect to dashboard or home page
-            router.push("/dashboard");
+            router.push("/shop");
         } catch (error: unknown) {
             console.error("API Error:", error);
 
@@ -143,7 +146,7 @@ const LoginPage = () => {
                 <div className="w-full max-w-[470px] gap-8 flex flex-col justify-center items-start">
                     <Image
                         className="h-16 w-16"
-                        src={Logo}
+                        src={"https://res.cloudinary.com/dxae5w6hn/image/upload/v1738661234/lgaftiqtc7desrwoxn23.png"}
                         alt="logo"
                         height={100}
                         width={100}
@@ -171,8 +174,8 @@ const LoginPage = () => {
                                 id="login"
                                 placeholder="Enter email or mobile number"
                                 className={`mt-1 w-full p-3 border rounded-lg bg-white ${formErrors.login
-                                        ? 'border-red-500'
-                                        : 'border-black'
+                                    ? 'border-red-500'
+                                    : 'border-black'
                                     }`}
                                 required
                                 value={formData.login}
@@ -193,8 +196,8 @@ const LoginPage = () => {
                                 type="password"
                                 id="password"
                                 className={`mt-1 w-full p-3 border rounded-lg bg-white ${formErrors.password
-                                        ? 'border-red-500'
-                                        : 'border-black'
+                                    ? 'border-red-500'
+                                    : 'border-black'
                                     }`}
                                 required
                                 value={formData.password}

@@ -14,20 +14,8 @@ import { verifyjwt } from "../middlewares/auth.middleware.js";
 import { addedusertoreqdontstopresponse } from "../middlewares/authnotstopreq.middleware..js";
 
 const router = Router();
-router.route('/register').post(
-    upload.fields([
-        {
-            name: "avatar",
-            maxCount: 1,
+router.route('/register').post(registerUser);
 
-        },
-        {
-            name: "coverImage",
-            maxCount: 1
-        }
-    ]),
-    registerUser);
-    
 router.route("/login").post(loginUser);
 
 // secured routes

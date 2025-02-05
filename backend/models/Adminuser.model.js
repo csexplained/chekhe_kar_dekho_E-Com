@@ -4,20 +4,23 @@ import bcrypt from 'bcrypt';
 
 const userSchema = new Schema(
     {
-        username: {
+        mobileno: {
             type: String,
             required: true,
             unique: true,
-            lowercase: true,
-            trim: true,
             index: true,
         },
         email: {
             type: String,
-            required: true,
             unique: true,
             lowercase: true,
             trim: true,
+        },
+        fullname: {
+            type: String,
+            required: true,
+            trim: true,
+            index: true,
         },
         password: {
             type: String,
@@ -56,7 +59,7 @@ userSchema.methods.genrateAccessToken = function () {
         {
             _id: this._id,
             email: this.email,
-            username: this.username,
+            mobileno: this.mobileno,
             fullname: this.fullname,
         },
         process.env.ACCESS_TOKEN_SECRET,
@@ -76,5 +79,6 @@ userSchema.methods.genrateRefreshToken = function () {
         }
     )
 }
+
 
 export const AdminUser = mongoose.model("AdminUser", userSchema)

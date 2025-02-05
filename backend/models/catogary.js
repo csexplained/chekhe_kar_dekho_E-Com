@@ -1,19 +1,18 @@
-import mongoose, { Schema } from 'mongoose';
-
-
-const productSchema = new Schema({
-  name: { type: String, required: true },
-  description: { type: String, required: true },
-  price: { type: Number, required: true },
-  rating: { type: Number, min: 1, max: 5, default: 3 },
-});
-
+import mongoose, { Document, Schema } from 'mongoose';
 
 const categorySchema = new Schema({
-  pickle: productSchema,
-  chutney: productSchema,
-  superSeeds: productSchema,
-  healthyNuts: productSchema,
+  name: {
+    type: String,
+    required: true,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+  updatedAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
 
 const Category = mongoose.model('Category', categorySchema);

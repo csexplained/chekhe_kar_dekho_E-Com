@@ -1,7 +1,6 @@
 "use client";
 import React, { useState } from "react";
 import Image from "next/image";
-import Logo from "@/public/Logo.png";
 import axios from "axios";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -70,11 +69,11 @@ const SignupPage = () => {
         const newErrors = {
             fullname: formData.fullname.trim() ? "" : "Full name is required",
             email: validateEmail(formData.email) ? "" : "Invalid email address",
-            password: validatePassword(formData.password) 
-                ? "" 
+            password: validatePassword(formData.password)
+                ? ""
                 : "Password must be at least 8 characters, include uppercase, lowercase, and a number",
-            mobileno: validateMobileNumber(formData.mobileno) 
-                ? "" 
+            mobileno: validateMobileNumber(formData.mobileno)
+                ? ""
                 : "Mobile number must be 10 digits",
         };
 
@@ -83,7 +82,7 @@ const SignupPage = () => {
     };
 
     const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-       
+
         e.preventDefault();
         // Validate form before submission
         if (!validateForm()) {
@@ -91,27 +90,38 @@ const SignupPage = () => {
         }
 
         setLoading(true);
+        toast({
+            title: "Creating Account",
+        })
         setError("");
-    
+
         try {
-            const response = await axios.post<{ data: User }>(
+            const response = await axios.post<{ data: { user: User, refreshToken: string }}>(
                 `${process.env.NEXT_PUBLIC_URL}/users/register`,
-                formData
+                formData,
+                {
+                    withCredentials: true,
+                }
             );
-            const { data } = response.data;
-    
-            dispatch(setUser(data));
+
+            //console.log(response.data.data);
+            const { user } = response.data.data;
+            const refreshToken = response.data.data.refreshToken;
+            localStorage.setItem("refreshToken", refreshToken);
+            dispatch(setUser(user));
+            
             toast({
                 title: "Account created successfully",
                 description: "You have successfully created your account",
             });
-    
-            router.push("/Login");
+
+            router.push("/shop");
+
         } catch (error: unknown) {
             console.error("API Error:", error);
-    
+
             let errorMessage = "An unexpected error occurred. Please try again.";
-    
+
             if (isAxiosError(error)) {
                 if (error.response) {
                     if (error.response.status === 409) {
@@ -125,9 +135,9 @@ const SignupPage = () => {
             } else if (error instanceof Error) {
                 errorMessage = error.errors;
             }
-    
+
             setError(errorMessage);
-    
+
             toast({
                 title: "Error",
                 description: errorMessage,
@@ -145,7 +155,7 @@ const SignupPage = () => {
                 <div className="w-full max-w-[470px] gap-8 flex flex-col justify-center items-start">
                     <Image
                         className="h-16 w-16"
-                        src={Logo}
+                        src={"https://res.cloudinary.com/dxae5w6hn/image/upload/v1738661234/lgaftiqtc7desrwoxn23.png"}
                         alt="logo"
                         height={100}
                         width={100}
@@ -169,11 +179,10 @@ const SignupPage = () => {
                             <input
                                 type="text"
                                 id="fullname"
-                                className={`mt-1 w-full p-3 border rounded-lg bg-white ${
-                                    formErrors.fullname 
-                                        ? 'border-red-500' 
-                                        : 'border-black'
-                                }`}
+                                className={`mt-1 w-full p-3 border rounded-lg bg-white ${formErrors.fullname
+                                    ? 'border-red-500'
+                                    : 'border-black'
+                                    }`}
                                 required
                                 value={formData.fullname}
                                 onChange={handleChange}
@@ -192,11 +201,10 @@ const SignupPage = () => {
                             <input
                                 type="email"
                                 id="email"
-                                className={`mt-1 w-full p-3 border rounded-lg bg-white ${
-                                    formErrors.email 
-                                        ? 'border-red-500' 
-                                        : 'border-black'
-                                }`}
+                                className={`mt-1 w-full p-3 border rounded-lg bg-white ${formErrors.email
+                                    ? 'border-red-500'
+                                    : 'border-black'
+                                    }`}
                                 required
                                 value={formData.email}
                                 onChange={handleChange}
@@ -215,11 +223,10 @@ const SignupPage = () => {
                             <input
                                 type="password"
                                 id="password"
-                                className={`mt-1 w-full p-3 border rounded-lg bg-white ${
-                                    formErrors.password 
-                                        ? 'border-red-500' 
-                                        : 'border-black'
-                                }`}
+                                className={`mt-1 w-full p-3 border rounded-lg bg-white ${formErrors.password
+                                    ? 'border-red-500'
+                                    : 'border-black'
+                                    }`}
                                 required
                                 value={formData.password}
                                 onChange={handleChange}
@@ -238,11 +245,10 @@ const SignupPage = () => {
                             <input
                                 type="tel"
                                 id="mobileno"
-                                className={`mt-1 w-full p-3 border rounded-lg bg-white ${
-                                    formErrors.mobileno 
-                                        ? 'border-red-500' 
-                                        : 'border-black'
-                                }`}
+                                className={`mt-1 w-full p-3 border rounded-lg bg-white ${formErrors.mobileno
+                                    ? 'border-red-500'
+                                    : 'border-black'
+                                    }`}
                                 required
                                 value={formData.mobileno}
                                 onChange={handleChange}

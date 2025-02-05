@@ -2,26 +2,55 @@ import Product from '../models/Products.model.js';
 import { uploadOnCloudinary, deletefromcloudinary } from '../utils/cloudinary.js';
 export const createProduct = async (req, res) => {
   try {
-    const { name, description, price, category, stock } = req.body;
-    const files = req.files;
+    const {
+      name,
+      description,
+      discountprice,
+      storageInfo,
+      ingredients,
+      benifits,
+      price,
+      category,
+      stock
+    } = req.body;
 
     // Validate required fields
-    if (!name || !description || !price || !category) {
+    if (!name || !description || !price || !category || !ingredients || !benifits || !storageInfo || !discountprice) {
       return res.status(400).json({ message: 'Please fill in all required fields.' });
     }
 
-    // Upload each file to Cloudinary and extract the secure_url from the response
-    const imageUploadPromises = files.map(file => uploadOnCloudinary(file.path));
-    const uploadResults = await Promise.all(imageUploadPromises);
-    const imageUrls = uploadResults.map(result => result.secure_url); // Extract only secure_url
+    // With multer, files are available in req.files
+    if (!req.files) {
+      return res.status(400).json({ message: 'Please upload images.' });
+    }
+
+    const mainImages = req.files['images'] || [];
+    const extraImages = req.files['extraimages'] || [];
+
+    // Upload main and extra images to Cloudinary
+    const mainImageUploadPromises = mainImages.map(file => uploadOnCloudinary(file.path));
+    const extraImageUploadPromises = extraImages.map(file => uploadOnCloudinary(file.path));
+   
+    const [mainImageResults, extraImageResults] = await Promise.all([
+      Promise.all(mainImageUploadPromises),
+      Promise.all(extraImageUploadPromises)
+    ]);
+
+    const mainImageUrls = mainImageResults.map(result => result.secure_url);
+    const extraImageUrls = extraImageResults.map(result => result.secure_url);
 
     // Create new product
     const newProduct = await Product.create({
       name,
       description,
       price,
+      discountprice,
+      storageInfo,
+      ingredients,
+      benifits,
       category,
-      images: imageUrls, // This is now an array of strings (URLs)
+      images: mainImageUrls,
+      extraimages: extraImageUrls,
       stock,
     });
 
@@ -38,32 +67,34 @@ export const createProduct = async (req, res) => {
     });
   }
 };
-// @desc    Get all products
-// @route   GET /api/products
-// @access  Public
-// @desc    Get all products
-// @route   GET /api/products
-// GET /api/products?page=1&limit=10&category=electronics&minPrice=100&maxPrice=1000
 
 export const getAllProducts = async (req, res) => {
   try {
-    const { page = 1, limit = 10, sort = '-createdAt', category, minPrice, maxPrice } = req.query;
+    const { 
+      page = 1, 
+      limit = 10, 
+      sort = '-createdAt', 
+      category, 
+      minPrice, 
+      maxPrice 
+    } = req.query;
 
     // Build query object for filtering
     const query = {};
 
     if (category) {
-      query.category = category; // Filter by category if provided
+      query.category = category;
     }
 
     if (minPrice || maxPrice) {
       query.price = {};
-      if (minPrice) query.price.$gte = minPrice; // Filter products with price greater than or equal to minPrice
-      if (maxPrice) query.price.$lte = maxPrice; // Filter products with price less than or equal to maxPrice
+      if (minPrice) query.price.$gte = minPrice;
+      if (maxPrice) query.price.$lte = maxPrice;
     }
 
     // Fetch products with pagination and filtering
     const products = await Product.find(query)
+      .populate('category')
       .sort(sort)
       .skip((page - 1) * limit)
       .limit(Number(limit));
@@ -86,10 +117,6 @@ export const getAllProducts = async (req, res) => {
   }
 };
 
-
-// @desc    Get a single product by ID
-// @route   GET /api/products/:id
-// @access  Public
 export const getProductById = async (req, res) => {
   try {
     const { id } = req.params;
@@ -115,9 +142,6 @@ export const getProductById = async (req, res) => {
   }
 };
 
-// @desc    Update a product
-// @route   PUT /api/products/:id
-// @access  Private (Admin only)
 export const updateProduct = async (req, res) => {
   try {
     const { id } = req.params;
@@ -134,17 +158,24 @@ export const updateProduct = async (req, res) => {
     }
 
     // Delete old images from Cloudinary
-    const deletePromises = product.images.map(url => deletefromcloudinary(url));
-    await Promise.all(deletePromises);
+    const deleteMainImagePromises = product.images.map(url => deletefromcloudinary(url));
+    const deleteExtraImagePromises = product.extraimages.map(url => deletefromcloudinary(url));
+    await Promise.all([...deleteMainImagePromises, ...deleteExtraImagePromises]);
 
-    // Upload new images to Cloudinary
-    const imageUploadPromises = files.map(file => uploadOnCloudinary(file.path));
-    const imageResponses = await Promise.all(imageUploadPromises);
+    // Upload new main and extra images to Cloudinary
+    const mainImageUploadPromises = files.filter(file => file.fieldname === 'images').map(file => uploadOnCloudinary(file.path));
+    const extraImageUploadPromises = files.filter(file => file.fieldname === 'extraimages').map(file => uploadOnCloudinary(file.path));
+    
+    const [mainImageResults, extraImageResults] = await Promise.all([
+      Promise.all(mainImageUploadPromises),
+      Promise.all(extraImageUploadPromises)
+    ]);
 
-    // Extract only the URLs from the Cloudinary response
-    const imageUrls = imageResponses.map(response => response.secure_url);
+    const mainImageUrls = mainImageResults.map(response => response.secure_url);
+    const extraImageUrls = extraImageResults.map(response => response.secure_url);
 
-    updatedData.images = imageUrls; // Store only the URLs, not the entire response
+    updatedData.images = mainImageUrls;
+    updatedData.extraimages = extraImageUrls;
 
     const updatedProduct = await Product.findByIdAndUpdate(id, updatedData, {
       new: true,
@@ -165,10 +196,6 @@ export const updateProduct = async (req, res) => {
   }
 };
 
-
-// @desc    Delete a product
-// @route   DELETE /api/products/:id
-// @access  Private (Admin only)
 export const deleteProduct = async (req, res) => {
   try {
     const { id } = req.params;
@@ -184,8 +211,9 @@ export const deleteProduct = async (req, res) => {
     }
 
     // Delete all images from Cloudinary
-    const deletePromises = product.images.map(url => deletefromcloudinary(url));
-    await Promise.all(deletePromises);
+    const deleteMainImagePromises = product.images.map(url => deletefromcloudinary(url));
+    const deleteExtraImagePromises = product.extraimages.map(url => deletefromcloudinary(url));
+    await Promise.all([...deleteMainImagePromises, ...deleteExtraImagePromises]);
 
     res.status(200).json({
       success: true,
@@ -198,4 +226,12 @@ export const deleteProduct = async (req, res) => {
       error: error.message
     });
   }
+};
+
+export default {
+  createProduct,
+  getAllProducts,
+  getProductById,
+  updateProduct,
+  deleteProduct
 };

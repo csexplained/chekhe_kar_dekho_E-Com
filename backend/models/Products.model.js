@@ -9,8 +9,24 @@ const productSchema = new Schema({
     type: String,
     required: true,
   },
+  ingredients: {
+    type: String,
+    required: true,
+  },
+  benifits: {
+    type: String,
+    required: true,
+  },
+  storageInfo: {
+    type: String,
+    required: true,
+  },
   price: {
     type: Number,
+    required: true,
+  },
+  discountprice: {
+    type: String,
     required: true,
   },
   category: {
@@ -19,6 +35,7 @@ const productSchema = new Schema({
     required: true,
   },
   images: [String], // URLs of product images
+  extraimages: [String], // URLs of product images
   stock: {
     type: Number,
     required: true,

@@ -1,13 +1,18 @@
 import React from 'react';
-import Image1 from '../../public/Delhi_tak.png';
-import img from '../../public/DSC09773.png';
-import { CiSearch } from 'react-icons/ci';
 import Image from 'next/image';
 import LocationMap from '../../components/LocationMap';
-import Footer from '../../components/Footer';
+import Bannar from '@/components/Bannar';
+import BannarArray from '@/BannarDB';
 
 // Reusable Contact Card Component
-const ContactCard = ({ icon, title, description, buttonText }) => {
+interface ContactCardProps {
+  icon: React.ReactNode;
+  title: string;
+  description: string;
+  buttonText: string;
+}
+
+const ContactCard: React.FC<ContactCardProps> = ({ icon, title, description, buttonText }) => {
   return (
     <div className='bg-white border border-[#B81F2E59] flex flex-col items-start justify-start rounded-3xl p-6 text-center'>
       <div className="mb-4">{icon}</div>
@@ -23,16 +28,8 @@ const ContactCard = ({ icon, title, description, buttonText }) => {
 const Page = () => {
   return (
     <div className="bg-white">
-      {/* Hero Section */}
-      <div className="relative h-64 md:h-96">
-        <Image
-          src={Image1}
-          alt="Delhi Tak"
-          layout="fill"
-          objectFit="cover"
-          className="w-full"
-        />
-      </div>
+      
+      <Bannar imgLink={BannarArray[0]}/>
 
       {/* Main Content Section */}
       <div className="container mx-auto px-12 py-8">
@@ -40,7 +37,7 @@ const Page = () => {
           {/* Image Section */}
           <div className="w-full md:w-1/2">
             <Image
-              src={img}
+              src={"https://res.cloudinary.com/dxae5w6hn/image/upload/v1738661810/awjdlmyqfeemiyrhut2b.png"}
               alt="Chakh Kar Dekho"
               layout="responsive"
               width={400}
