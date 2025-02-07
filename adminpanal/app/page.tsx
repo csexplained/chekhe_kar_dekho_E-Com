@@ -7,11 +7,11 @@ import { setUser } from "@/store/authSlice";
 import { Loader2 } from "lucide-react";
 import User from "@/types/user.type";
 import Link from "next/link";
-
+import { useRouter } from "next/navigation";
 export default function Home() {
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(true); // Added loading state
-
+    const router = useRouter();
     async function getUserState() {
         try {
             const token = localStorage.getItem("refreshToken");
@@ -30,8 +30,11 @@ export default function Home() {
             const { data } = response.data.data;
             const refreshToken = response.data.data.refreshToken;
             localStorage.setItem("refreshToken", refreshToken);
+
             dispatch(setUser(data));
+            router.push("/dashboard");
         } catch (error) {
+            router.push("/Login");
             console.error("Error fetching user state:", error);
         } finally {
             setLoading(false); // Ensure loading is set to false after fetching
@@ -58,6 +61,9 @@ export default function Home() {
 
                     <Link href="products/addproduct" className="px-6 w-full text-center py-3 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600">
                         Add Product
+                    </Link>
+                    <Link className="px-6 py-3 w-full text-center bg-green-500 text-white rounded-lg shadow-md hover:bg-green-600" href={"addCategory"}>
+                        Add Category
                     </Link>
                     <button className="px-6 py-3 bg-green-500 text-white rounded-lg shadow-md hover:bg-green-600">
                         View Products

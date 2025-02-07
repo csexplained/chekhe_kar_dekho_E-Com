@@ -30,7 +30,7 @@ export const createProduct = async (req, res) => {
     // Upload main and extra images to Cloudinary
     const mainImageUploadPromises = mainImages.map(file => uploadOnCloudinary(file.path));
     const extraImageUploadPromises = extraImages.map(file => uploadOnCloudinary(file.path));
-   
+
     const [mainImageResults, extraImageResults] = await Promise.all([
       Promise.all(mainImageUploadPromises),
       Promise.all(extraImageUploadPromises)
@@ -67,35 +67,43 @@ export const createProduct = async (req, res) => {
     });
   }
 };
-
 export const getAllProducts = async (req, res) => {
   try {
-    const { 
-      page = 1, 
-      limit = 10, 
-      sort = '-createdAt', 
-      category, 
-      minPrice, 
-      maxPrice 
+    const {
+      page = 1,
+      limit = 10,
+      sort = '-createdAt', // Default sort by newest first
+      category,
+      minPrice,
+      maxPrice,
+      sortOrder // New param for price sorting
     } = req.query;
 
     // Build query object for filtering
     const query = {};
-
     if (category) {
       query.category = category;
     }
 
+    // Price range filtering
     if (minPrice || maxPrice) {
       query.price = {};
-      if (minPrice) query.price.$gte = minPrice;
-      if (maxPrice) query.price.$lte = maxPrice;
+      if (minPrice) query.price.$gte = Number(minPrice);
+      if (maxPrice) query.price.$lte = Number(maxPrice);
+    }
+
+    // Dynamic sorting logic
+    let sortOption = sort;
+    if (sortOrder === 'asc') {
+      sortOption = 'price'; // Sort by ascending price
+    } else if (sortOrder === 'desc') {
+      sortOption = '-price'; // Sort by descending price
     }
 
     // Fetch products with pagination and filtering
     const products = await Product.find(query)
       .populate('category')
-      .sort(sort)
+      .sort(sortOption)
       .skip((page - 1) * limit)
       .limit(Number(limit));
 
@@ -165,7 +173,7 @@ export const updateProduct = async (req, res) => {
     // Upload new main and extra images to Cloudinary
     const mainImageUploadPromises = files.filter(file => file.fieldname === 'images').map(file => uploadOnCloudinary(file.path));
     const extraImageUploadPromises = files.filter(file => file.fieldname === 'extraimages').map(file => uploadOnCloudinary(file.path));
-    
+
     const [mainImageResults, extraImageResults] = await Promise.all([
       Promise.all(mainImageUploadPromises),
       Promise.all(extraImageUploadPromises)

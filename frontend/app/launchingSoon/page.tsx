@@ -1,27 +1,72 @@
 "use client";
-
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Carousel } from "@/components/ui/apple-cards-carousel";
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import ComingSooncard from '@/components/ComingSoonproductCard';
+import axios from 'axios';
+import { Loader2, AlertCircle } from 'lucide-react';
 
-const products = [
-  { price: 169, discount: 10, src: "pickle", productname: "Dry Fruits Mix Pickle 475gm", rating: 4.9, noofreviews: 120 },
-  { price: 199, discount: 15, src: "chutney", productname: "Garlic Chutney 200gm", rating: 4.7, noofreviews: 95 },
-  { price: 149, discount: 5, src: "pickle", productname: "Spicy Mango Pickle 500gm", rating: 4.5, noofreviews: 80 },
-  { price: 179, discount: 20, src: "chutney", productname: "Mixed Vegetable Pickle 300gm", rating: 4.8, noofreviews: 110 },
-  { price: 129, discount: 0, src: "pickle", productname: "Lemon Pickle 250gm", rating: 4.6, noofreviews: 70 },
-  { price: 189, discount: 12, src: "chutney", productname: "Sweet Tamarind Chutney 400gm", rating: 4.4, noofreviews: 60 },
-  { price: 159, discount: 8, src: "pickle", productname: "Green Chili Pickle 350gm", rating: 4.3, noofreviews: 50 },
-  { price: 209, discount: 18, src: "pickle", productname: "Special Mixed Pickle Combo 600gm", rating: 4.9, noofreviews: 150 },
-  { price: 139, discount: 0, src: "chutney", productname: "Red Chili Chutney 200gm", rating: 4.2, noofreviews: 40 },
-  { price: 169, discount: 10, src: "chutney", productname: "Garlic and Ginger Pickle 450gm", rating: 4.7, noofreviews: 90 },
-];
+interface ComingSoonProduct {
+  _id: string;
+  name: string;
+  images: string[];
+  price: number;
+  discountprice: number;
+  rating: number;
+  noofreviews: number;
+}
 
+const ComingSoonPage = () => {
+  const [products, setProducts] = useState<ComingSoonProduct[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-const page = () => {
+  useEffect(() => {
+    const fetchComingSoonProducts = async () => {
+      setLoading(true);
+      setError(null);
+      try {
+        const response = await axios.get(`${process.env.NEXT_PUBLIC_URL}/comingsoonprodcuts/`, {
+          withCredentials: true,
+        });
+        const data = response.data as { products: ComingSoonProduct[] };
+        setProducts(data.products);
+      } catch (err) {
+        setError('Failed to load coming soon products. Please try again.');
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchComingSoonProducts();
+  }, []);
+
+  if (error) {
+    return (
+      <div className="flex flex-col justify-center items-center h-screen text-red-500">
+        <AlertCircle size={64} className="mb-4" />
+        <p className="text-xl">{error}</p>
+        <button
+          onClick={() => window.location.reload()}
+          className="mt-4 px-4 py-2 bg-blue-500 text-white rounded"
+        >
+          Retry
+        </button>
+      </div>
+    );
+  }
+
   const cards = products.map((product, index) => (
-    <ComingSooncard key={index} carddata={product} />
+    <ComingSooncard
+      key={product._id}
+      carddata={{
+        price: product.price,
+        discount: product.discountprice,
+        src: product.images[0], // Use the first image
+        productname: product.name,
+        rating: product.rating,
+        noofreviews: product.noofreviews,
+      }}
+    />
   ));
 
   return (
@@ -31,20 +76,18 @@ const page = () => {
         <div className="text-4xl sm:text-4xl md:text-5xl font-inter font-semibold text-left md:text-left mb-4 md:mb-0">
           Coming Soon
         </div>
-        <div className="flex  flex-col min-w-32 sm:flex-row gap-3">
-          <button className="font-poppins min-w-32 sm:w-44 font-medium h-12 sm:h-16  bg-green-900 rounded-full border text-white">
-            Best Sellers
-          </button>
-          <button className="border h-12 min-w-32 sm:w-44 sm:h-16  border-red-900 text-red-900 bg-transparent rounded-full">
-            New Launches
-          </button>
-        </div>
       </div>
 
       {/* Carousel Section */}
-      <Carousel items={cards} />
+      {loading ? (
+        <div className="flex justify-center items-center h-64">
+          <Loader2 className="animate-spin text-green-500" size={64} />
+        </div>
+      ) : (
+        <Carousel items={cards} />
+      )}
     </div>
   );
-}
+};
 
-export default page
+export default ComingSoonPage;

@@ -21,6 +21,9 @@ interface ProductFormData {
     extraimages: File[];
 }
 
+const MAX_MAIN_IMAGES = 7;
+const MAX_EXTRA_IMAGES = 4;
+
 const AddProductPage = () => {
     const [formData, setFormData] = useState<ProductFormData>({
         name: "",
@@ -44,7 +47,6 @@ const AddProductPage = () => {
     const router = useRouter();
     const { toast } = useToast();
 
-    // Fetch categories on component mount
     useEffect(() => {
         const loadCategories = async () => {
             const fetchedCategories = await fetchCategories();
@@ -62,7 +64,6 @@ const AddProductPage = () => {
             [id]: value
         }));
 
-        // Clear previous error when user starts typing
         if (formErrors[id as keyof ProductFormData]) {
             setFormErrors(prev => ({
                 ...prev,
@@ -74,9 +75,28 @@ const AddProductPage = () => {
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const { id, files } = e.target;
         if (files) {
+            const fileArray = Array.from(files);
+            const maxFiles = id === 'images' ? MAX_MAIN_IMAGES : MAX_EXTRA_IMAGES;
+
+            if (fileArray.length > maxFiles) {
+                setFormErrors(prev => ({
+                    ...prev,
+                    [id]: `Maximum ${maxFiles} ${id === 'images' ? 'main' : 'extra'} images allowed`
+                }));
+                // Reset the file input
+                e.target.value = '';
+                return;
+            }
+
             setFormData(prev => ({
                 ...prev,
-                [id]: Array.from(files)
+                [id]: fileArray
+            }));
+
+            // Clear any previous errors
+            setFormErrors(prev => ({
+                ...prev,
+                [id]: "",
             }));
         }
     };
@@ -109,6 +129,12 @@ const AddProductPage = () => {
         // Validate image uploads
         if (!formData.images || formData.images.length === 0) {
             newErrors.images = "Please upload at least one main image";
+        } else if (formData.images.length > MAX_MAIN_IMAGES) {
+            newErrors.images = `Maximum ${MAX_MAIN_IMAGES} main images allowed`;
+        }
+
+        if (formData.extraimages.length > MAX_EXTRA_IMAGES) {
+            newErrors.extraimages = `Maximum ${MAX_EXTRA_IMAGES} extra images allowed`;
         }
 
         setFormErrors(newErrors);
@@ -161,7 +187,7 @@ const AddProductPage = () => {
                 description: "Product has been successfully created",
             });
 
-            //router.push("/products");
+            // router.push("/");
         } catch (error: unknown) {
             console.error("API Error:", error);
 
@@ -182,7 +208,6 @@ const AddProductPage = () => {
             setLoading(false);
         }
     };
-
     return (
         <div className="bg-[#FFF9EA] min-h-screen flex justify-center items-center p-4">
             <div className="w-full max-w-2xl bg-white rounded-lg shadow-md p-8">
@@ -350,6 +375,9 @@ const AddProductPage = () => {
                         <div>
                             <label htmlFor="images" className="block text-sm font-medium text-gray-700">
                                 Main Images <span className="text-red-500">*</span>
+                                <span className="text-sm text-gray-500 ml-1">
+                                    (Max {MAX_MAIN_IMAGES})
+                                </span>
                             </label>
                             <input
                                 type="file"
@@ -361,10 +389,16 @@ const AddProductPage = () => {
                                 disabled={loading}
                             />
                             {formErrors.images && <p className="text-red-500 text-sm mt-1">{formErrors.images}</p>}
+                            <p className="text-sm text-gray-500 mt-1">
+                                Selected: {formData.images.length} / {MAX_MAIN_IMAGES}
+                            </p>
                         </div>
                         <div>
                             <label htmlFor="extraimages" className="block text-sm font-medium text-gray-700">
                                 Extra Images
+                                <span className="text-sm text-gray-500 ml-1">
+                                    (Max {MAX_EXTRA_IMAGES})
+                                </span>
                             </label>
                             <input
                                 type="file"
@@ -372,9 +406,13 @@ const AddProductPage = () => {
                                 multiple
                                 accept="image/*"
                                 onChange={handleFileChange}
-                                className="mt-1 w-full p-3 border border-gray-300 rounded-lg"
+                                className={`mt-1 w-full p-3 border rounded-lg ${formErrors.extraimages ? 'border-red-500' : 'border-gray-300'}`}
                                 disabled={loading}
                             />
+                            {formErrors.extraimages && <p className="text-red-500 text-sm mt-1">{formErrors.extraimages}</p>}
+                            <p className="text-sm text-gray-500 mt-1">
+                                Selected: {formData.extraimages.length} / {MAX_EXTRA_IMAGES}
+                            </p>
                         </div>
                     </div>
 

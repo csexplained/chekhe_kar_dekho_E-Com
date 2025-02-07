@@ -42,6 +42,7 @@ import MessageRouter from './routes/Message.routes.js'
 import OrderRouter from "./routes/Order.Routes.js";
 // import PaymentRouter from "./routes/Payment.Routes.js";
 import ProductsRouter from "./routes/Products.Routes.js";
+import ComingProductsController from "./routes/ComingSoonProducts.Routes.js";
 
 // // routes declaration
 app.use('/api/v1/users', userRouter);
@@ -53,7 +54,7 @@ app.use('/api/v1/Order', OrderRouter);
 // Waiting for the razorpay id etc 
 // //app.use('/api/v1/Payment', PaymentRouter);
 app.use('/api/v1/Products', ProductsRouter);
-
+app.use("/api/v1/comingsoonprodcuts", ComingProductsController)
 app.get('/', (req, res) => {
     res.send("hello")
 })

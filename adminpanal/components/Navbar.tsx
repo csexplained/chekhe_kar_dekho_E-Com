@@ -1,20 +1,15 @@
 'use client';
-
 import Image from 'next/image';
-import React, { use, useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import { CiSearch } from "react-icons/ci";
-import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import { useSelector } from 'react-redux';
 import { RootState } from "@/store";
-import { IconH2 } from '@tabler/icons-react';
+
 
 const Navbar = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const pathname = usePathname();
+
   const user = useSelector((state: RootState) => state.user);
-  const toggleMenu = () => setIsMenuOpen(!isMenuOpen);
+
 
   return (
     <>
@@ -22,9 +17,6 @@ const Navbar = () => {
 
         {/* Logo */}
         <div className="flex items-center gap-4">
-          <button className="lg:hidden p-2 my-2 rounded-full hover:bg-gray-300 transition-colors duration-200" onClick={toggleMenu}>
-            {isMenuOpen ? <AiOutlineClose size={24} /> : <AiOutlineMenu size={24} />}
-          </button>
           <Image src={"https://res.cloudinary.com/dxae5w6hn/image/upload/v1738661234/lgaftiqtc7desrwoxn23.png"} width={80} height={80} alt="logo" className="h-14 sm:h-20 w-auto cursor-pointer" />
 
 
@@ -53,24 +45,6 @@ const Navbar = () => {
 
         </div>
       </div >
-
-
-      {/* Mobile Menu */}
-      {
-        isMenuOpen && (
-          <div className="lg:hidden bg-gray-100 p-4 shadow-lg fixed top-[105px] w-full z-40">
-            <nav className="flex flex-col gap-4 text-lg">
-              <Link className="hover:text-[#B81F2E] transition-colors duration-200" href="/" onClick={toggleMenu}>Home</Link>
-              <Link className="hover:text-[#B81F2E] transition-colors duration-200" href="/shop" onClick={toggleMenu}>Shop</Link>
-              <Link className="hover:text-[#B81F2E] transition-colors duration-200" href="/sale" onClick={toggleMenu}>Sale</Link>
-              <Link className="hover:text-[#B81F2E] transition-colors duration-200" href="/launchingSoon" onClick={toggleMenu}>Launching soon</Link>
-              <Link className="hover:text-[#B81F2E] transition-colors duration-200" href="/ourStory" onClick={toggleMenu}>Our Story</Link>
-              <Link className="hover:text-[#B81F2E] transition-colors duration-200" href="/contactUs" onClick={toggleMenu}>Contact Us</Link>
-              <Link className="hover:text-[#B81F2E] transition-colors duration-200" href="/gifting" onClick={toggleMenu}>Gifting</Link>
-            </nav>
-          </div>
-        )
-      }
     </>
   );
 };
