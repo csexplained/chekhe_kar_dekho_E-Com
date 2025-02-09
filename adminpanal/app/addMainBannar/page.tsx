@@ -36,7 +36,7 @@ const AddBannerPage = () => {
             formData.append("altText", altText);
 
             const response = await axios.post(
-                `${process.env.NEXT_PUBLIC_URL}/banners`,
+                `${process.env.NEXT_PUBLIC_URL}/banners/main`,
                 formData,
                 {
                     headers: {

@@ -10,7 +10,7 @@ const Carousel = () => {
     useEffect(() => {
         const fetchBanners = async () => {
             try {
-                const response = await axios.get(`${process.env.NEXT_PUBLIC_URL}/banners`);
+                const response = await axios.get(`${process.env.NEXT_PUBLIC_URL}/banners/main`);
                 setImages(response.data as { imgSrc: string; altText: string }[]);
             } catch (error) {
                 console.error("Error fetching banners:", error);
