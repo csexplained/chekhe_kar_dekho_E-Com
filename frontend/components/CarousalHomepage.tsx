@@ -1,15 +1,23 @@
 'use client';
 import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
-
-const images = [
-    "https://res.cloudinary.com/djwzwq4cu/image/upload/v1738583359/erokgzycpskydxqqjumr.png",
-    "https://res.cloudinary.com/djwzwq4cu/image/upload/v1738583358/w4jym1e33ky4ndzt6tv8.png",
-    "https://res.cloudinary.com/djwzwq4cu/image/upload/v1738583357/t5hzkrrrbkqtnaundffr.png",
-];
+import axios from 'axios';
 
 const Carousel = () => {
+    const [images, setImages] = useState<{ imgSrc: string; altText: string }[]>([]);
     const [currentIndex, setCurrentIndex] = useState(0);
+
+    useEffect(() => {
+        const fetchBanners = async () => {
+            try {
+                const response = await axios.get(`${process.env.NEXT_PUBLIC_URL}/banners`);
+                setImages(response.data as { imgSrc: string; altText: string }[]);
+            } catch (error) {
+                console.error("Error fetching banners:", error);
+            }
+        };
+        fetchBanners();
+    }, []);
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -17,8 +25,7 @@ const Carousel = () => {
         }, 3000);
 
         return () => clearInterval(interval);
-    }, []);
-
+    }, [images]);
 
     const goToImage = (index: number): void => {
         setCurrentIndex(index);
@@ -31,10 +38,10 @@ const Carousel = () => {
                 {images.map((image, index) => (
                     <div key={index} className="w-full flex-shrink-0 relative h-[200px] sm:h-[400px] md:h-[570px]">
                         <Image
-                            src={image}
-                            alt={`Slide ${index}`}
-                            layout="fill" // Fill the parent container
-                            objectFit="cover" // Ensure the image covers the area without distortion
+                            src={image.imgSrc}
+                            alt={image.altText || `Slide ${index}`}
+                            layout="fill"
+                            objectFit="cover"
                             className="w-full h-full"
                         />
                     </div>

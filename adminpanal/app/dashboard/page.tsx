@@ -22,9 +22,9 @@ export default function Home() {
                     <Link href={"/products/addcomingsoonproduct"} className="px-6 py-3 bg-yellow-500 text-white rounded-lg shadow-md hover:bg-yellow-600">
                         Add Coming Soon Product
                     </Link>
-                    <button className="px-6 py-3 bg-red-500 text-white rounded-lg shadow-md hover:bg-red-600">
-                        Add Banners
-                    </button>
+                    <Link href={"/addMainBannar"} className="px-6 py-3 bg-red-500 text-center text-white rounded-lg shadow-md hover:bg-red-600">
+                        Add Main Banners
+                    </Link>
                 </div>
             </div>
         </>
