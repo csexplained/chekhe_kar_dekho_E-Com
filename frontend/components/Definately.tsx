@@ -6,7 +6,6 @@ const pickles = [
   { id: 1, image: "https://res.cloudinary.com/dxae5w6hn/image/upload/v1738662985/ew5ibeokqhwfvte9qtnd.jpg" },
   { id: 2, image: "https://res.cloudinary.com/dxae5w6hn/image/upload/v1738662985/ew5ibeokqhwfvte9qtnd.jpg" },
   { id: 3, image: "https://res.cloudinary.com/dxae5w6hn/image/upload/v1738662985/ew5ibeokqhwfvte9qtnd.jpg" },
-  { id: 4, image: "https://res.cloudinary.com/dxae5w6hn/image/upload/v1738662985/ew5ibeokqhwfvte9qtnd.jpg" }, // Extra item to show dynamic behavior
 ];
 
 const Definately = () => {
@@ -18,7 +17,7 @@ const Definately = () => {
       </div>
 
       {/* Scrollable Image Grid */}
-      <div className="flex overflow-x-auto scrollbar-hide snap-x snap-mandatory my-12 gap-6 md:gap-8 lg:gap-12 px-4">
+      <div className="flex  my-12 gap-6 md:gap-8 lg:gap-12 px-4">
         {pickles.map((pickle) => (
           <div
             key={pickle.id}

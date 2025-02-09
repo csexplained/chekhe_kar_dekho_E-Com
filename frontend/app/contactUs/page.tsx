@@ -1,3 +1,4 @@
+"use client";
 import React from 'react';
 import Image from 'next/image';
 import LocationMap from '../../components/LocationMap';
@@ -18,7 +19,7 @@ const ContactCard: React.FC<ContactCardProps> = ({ icon, title, description, but
       <div className="mb-4">{icon}</div>
       <p className='text-lg font-semibold mb-2'>{title}</p>
       <p className='text-sm text-gray-600 mb-4'>{description}</p>
-      <button className='bg-custom-red text-white px-6 py-3  rounded-full hover:bg-red-600 transition-colors'>
+      <button className='bg-custom-red text-white px-6 py-3 rounded-full hover:bg-red-600 transition-colors'>
         {buttonText}
       </button>
     </div>
@@ -26,10 +27,35 @@ const ContactCard: React.FC<ContactCardProps> = ({ icon, title, description, but
 };
 
 const Page = () => {
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const form = e.currentTarget;
+    const formData = new FormData(form);
+
+    try {
+      const response = await fetch('https://api.web3forms.com/submit', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const result = await response.json();
+
+      if (result.success) {
+        alert('Thank you for contacting us! We will get back to you soon.');
+        form.reset(); // Reset the form after successful submission
+      } else {
+        alert('Something went wrong. Please try again.');
+      }
+    } catch (error) {
+      console.error('Error submitting form:', error);
+      alert('An error occurred. Please try again.');
+    }
+  };
+
   return (
     <div className="bg-white">
-      
-      <Bannar imgLink={BannarArray[0]}/>
+      <Bannar imgLink={BannarArray[0]} />
 
       {/* Main Content Section */}
       <div className="container mx-auto px-12 py-8">
@@ -47,14 +73,24 @@ const Page = () => {
           </div>
 
           {/* Form Section */}
-          <div className="w-full md:w-1/2 bg-white font-inter p-8 rounded-2xl ">
+          <div className="w-full md:w-1/2 bg-white font-inter p-8 rounded-2xl">
             <h1 className="text-3xl md:text-4xl font-normal mb-4">Do You Need Help?</h1>
             <p className="text-sm text-[#000000] mb-6">
               If you&apos;d like further information about Chakh Kar Dekho, please get in
               touch. Simply fill out the form, include your message, and we&apos;ll get
               back to you as soon as we can.
             </p>
-            <form className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-4">
+              {/* Web3Forms Hidden Inputs */}
+              <input
+                type="hidden"
+                name="access_key"
+                value="d5f983c4-9589-4f4f-b0fe-e350e983ac31" // Replace with your Web3Forms access key
+              />
+              <input type="hidden" name="subject" value="New Contact Form Submission" />
+              <input type="hidden" name="from_name" value="Chakh Kar Dekho Website" />
+              <input type="checkbox" name="botcheck" className="hidden" />
+
               <div className="flex flex-col md:flex-row gap-4">
                 <div className="w-full md:w-1/2">
                   <label htmlFor="fullName" className="block text-sm font-medium text-[#000000]">
@@ -63,6 +99,7 @@ const Page = () => {
                   <input
                     type="text"
                     id="fullName"
+                    name="name"
                     className="mt-1 w-full p-3 border border-black rounded-full bg-[#FFF9EA]"
                     required
                   />
@@ -74,6 +111,7 @@ const Page = () => {
                   <input
                     type="tel"
                     id="phoneNumber"
+                    name="phone"
                     className="mt-1 w-full p-3 border border-black rounded-full bg-[#FFF9EA]"
                     required
                   />
@@ -87,6 +125,7 @@ const Page = () => {
                 <input
                   type="email"
                   id="email"
+                  name="email"
                   className="mt-1 w-full p-3 border border-black rounded-full bg-[#FFF9EA]"
                   required
                 />
@@ -98,6 +137,7 @@ const Page = () => {
                 </label>
                 <textarea
                   id="message"
+                  name="message"
                   rows={3}
                   className="mt-1 w-full p-3 border border-black rounded-xl bg-[#FFF9EA]"
                   required

@@ -7,6 +7,7 @@ import Bannar from "@/components/Bannar";
 import TalkOfTown from '@/components/TalkOfTown';
 import BannarArray from '@/BannarDB';
 import { fetchCategories, Category } from '@/utils/categoryFetch';
+import TalkOfTownComponent from '@/components/TalksoftheTown';
 
 interface Product {
   _id: string;
@@ -20,6 +21,8 @@ interface Product {
   };
   images: string[];
   stock: number;
+  ratings: number;
+  reviews: number;
 }
 
 const ProductListingPage = () => {
@@ -194,6 +197,7 @@ const ProductListingPage = () => {
         </div>
       </div>
       <Bannar imgLink={BannarArray[2]} />
+      <TalkOfTownComponent />
     </>
   );
 };

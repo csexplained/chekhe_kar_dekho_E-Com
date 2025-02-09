@@ -17,6 +17,8 @@ interface Product {
   };
   images: string[];
   stock: number;
+  ratings: number;
+  reviews: number;
 }
 
 const TalkOfTownComponent = () => {
@@ -31,7 +33,7 @@ const TalkOfTownComponent = () => {
       try {
         const response = await axios.get(`${process.env.NEXT_PUBLIC_URL}/Products/`, {
           params: {
-            limit: 10, // Adjust the limit as needed
+            limit: 30, // Adjust the limit as needed
           },
           withCredentials: true
         });

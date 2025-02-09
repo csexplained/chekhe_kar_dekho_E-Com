@@ -14,6 +14,8 @@ interface ProductFormData {
     benifits: string;
     storageInfo: string;
     price: string;
+    ratings: number,
+    reviews: number,
     discountprice: string;
     category: string;
     stock: string;
@@ -33,6 +35,8 @@ const AddProductPage = () => {
         storageInfo: "",
         price: "",
         discountprice: "",
+        ratings: 0,
+        reviews: 0,
         category: "",
         stock: "",
         images: [],
@@ -108,7 +112,7 @@ const AddProductPage = () => {
         const requiredFields: (keyof ProductFormData)[] = [
             'name', 'description', 'ingredients', 'benifits',
             'storageInfo', 'price', 'discountprice',
-            'category', 'stock'
+            'category', 'stock', "reviews", "ratings"
         ];
 
         requiredFields.forEach(field => {
@@ -120,6 +124,13 @@ const AddProductPage = () => {
         // Validate numeric fields
         if (formData.price && isNaN(Number(formData.price))) {
             newErrors.price = "Price must be a number";
+        }
+        // Validate numeric fields
+        if (formData.ratings && isNaN(Number(formData.ratings))) {
+            newErrors.ratings = "Price must be a number";
+        }// Validate numeric fields
+        if (formData.reviews && isNaN(Number(formData.reviews))) {
+            newErrors.reviews = "Price must be a number";
         }
 
         if (formData.stock && isNaN(Number(formData.stock))) {
@@ -252,6 +263,38 @@ const AddProductPage = () => {
                         {formErrors.description && <p className="text-red-500 text-sm mt-1">{formErrors.description}</p>}
                     </div>
 
+                    {/* ratings and Reviews */}
+                    <div className="grid grid-cols-2 gap-4">
+                        <div>
+                            <label htmlFor="ratings" className="block text-sm font-medium text-gray-700">
+                                Ratings <span className="text-red-500">*</span>
+                            </label>
+                            <input
+                                type="text"
+                                id="ratings"
+                                value={formData.ratings}
+                                onChange={handleChange}
+                                className={`mt-1 w-full p-3 border rounded-lg ${formErrors.ratings ? 'border-red-500' : 'border-gray-300'}`}
+                                disabled={loading}
+                            />
+                            {formErrors.ratings && <p className="text-red-500 text-sm mt-1">{formErrors.ratings}</p>}
+                        </div>
+                        <div>
+                            <label htmlFor="reviews" className="block text-sm font-medium text-gray-700">
+                                Reviews <span className="text-red-500">*</span>
+                            </label>
+                            <input
+                                type="text"
+                                id="reviews"
+                                value={formData.reviews}
+                                onChange={handleChange}
+                                className={`mt-1 w-full p-3 border rounded-lg ${formErrors.reviews ? 'border-red-500' : 'border-gray-300'}`}
+                                disabled={loading}
+                            />
+                            {formErrors.reviews && <p className="text-red-500 text-sm mt-1">{formErrors.reviews}</p>}
+                        </div>
+                    </div>
+
                     {/* Price and Discount Price */}
                     <div className="grid grid-cols-2 gap-4">
                         <div>
@@ -270,7 +313,7 @@ const AddProductPage = () => {
                         </div>
                         <div>
                             <label htmlFor="discountprice" className="block text-sm font-medium text-gray-700">
-                                Discount Price <span className="text-red-500">*</span>
+                                Discount % <span className="text-red-500">*</span>
                             </label>
                             <input
                                 type="text"

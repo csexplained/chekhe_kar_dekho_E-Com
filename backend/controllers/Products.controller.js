@@ -11,11 +11,13 @@ export const createProduct = async (req, res) => {
       benifits,
       price,
       category,
-      stock
+      stock,
+      reviews,
+      ratings
     } = req.body;
 
     // Validate required fields
-    if (!name || !description || !price || !category || !ingredients || !benifits || !storageInfo || !discountprice) {
+    if (!name || !ratings || !reviews || !description || !price || !category || !ingredients || !benifits || !storageInfo || !discountprice) {
       return res.status(400).json({ message: 'Please fill in all required fields.' });
     }
 
@@ -49,6 +51,8 @@ export const createProduct = async (req, res) => {
       ingredients,
       benifits,
       category,
+      ratings,
+      reviews,
       images: mainImageUrls,
       extraimages: extraImageUrls,
       stock,

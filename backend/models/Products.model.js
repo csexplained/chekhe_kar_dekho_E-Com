@@ -29,6 +29,14 @@ const productSchema = new Schema({
     type: String,
     required: true,
   },
+  reviews: {
+    type: Number,
+    required: true,
+  },
+  ratings: {
+    type: Number,
+    required: true,
+  },
   category: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Category',

@@ -22,6 +22,8 @@ interface Product {
   price: number;
   discountprice?: number;
   images: string[];
+  ratings: number;
+  reviews: number;
   extraimages: string[];
   stock: number;
 }
@@ -31,6 +33,8 @@ export default function ProductPage() {
   const [product, setProduct] = useState<Product | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
+  const [mainImage, setMainImage] = useState<string>("");
+  const [quantity, setQuantity] = useState<number>(1);
 
   useEffect(() => {
     if (!productId) return;
@@ -42,7 +46,9 @@ export default function ProductPage() {
 
         // console.log("API Response:", response.data); // Debugging
 
-        setProduct((response.data as { product: Product }).product);
+        const fetchedProduct = (response.data as { product: Product }).product;
+        setProduct(fetchedProduct);
+        setMainImage(fetchedProduct.images?.[0] || ""); // Set the first image as the main image
       } catch (err) {
         console.error("API Fetch Error:", err);
         setError("Failed to fetch product details.");
@@ -53,6 +59,18 @@ export default function ProductPage() {
 
     fetchProduct();
   }, [productId]);
+
+  const handleThumbnailClick = (image: string) => {
+    setMainImage(image);
+  };
+
+  const handleQuantityChange = (action: "increase" | "decrease") => {
+    if (action === "increase") {
+      setQuantity((prev) => prev + 1);
+    } else if (action === "decrease" && quantity > 1) {
+      setQuantity((prev) => prev - 1);
+    }
+  };
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p className="text-red-500">{error}</p>;
@@ -70,19 +88,27 @@ export default function ProductPage() {
         <div className="flex items-center gap-6 justify-center w-1/2 h-full">
           <div className="gap-3 flex flex-col justify-center items-center h-full">
             {product.images?.slice(0, 6).map((image, index) => (
-              <Image key={index} className="h-16 w-16" src={image} alt="product" width={500} height={500} />
+              <Image
+                key={index}
+                className="h-16 w-16 cursor-pointer"
+                src={image}
+                alt="product"
+                width={500}
+                height={500}
+                onClick={() => handleThumbnailClick(image)}
+              />
             ))}
           </div>
-          <Image src={product.images?.[0] || ""} alt="product" width={500} height={500} />
+          <Image src={mainImage} alt="product" width={500} height={500} />
         </div>
         <div className="flex flex-col items-start gap-5 justify-center w-1/2 h-full">
           <p className="font-bold text-5xl">{product.name}</p>
           <p className="text-lg">{product.description}</p>
-          {/* 
-           <div className="flex justify-start gap-2 items-center">
-            <p className="text-xl">4.5 / 5.0 <span className="text-gray-500">(2000 Reviews)</span></p>
+
+          <div className="flex justify-start gap-2 items-center">
+            <p className="text-xl">{product.ratings} / 5.0 <span className="text-gray-500">({product.reviews} Reviews)</span></p>
           </div>
-          */}
+
           <hr className="bg-gray-500 h-[2px] w-full" />
           <div className="flex justify-start gap-4 items-center">
             <p className="font-semibold text-3xl">₹ {discountedPrice}</p>
@@ -98,15 +124,20 @@ export default function ProductPage() {
           <hr className="bg-gray-500 h-[2px] w-full" />
           <p>Select your Qty</p>
           <div className="flex justify-start gap-2 items-center">
-            {/*
-             <button className="bg-yellow-500 text-black font-semibold text-lg px-4 py-2 rounded-3xl">200 gm</button>
-            <button className="bg-yellow-300 border border-yellow-500 text-black font-semibold text-lg px-4 py-2 rounded-3xl">500 gm</button>
-            <button className="bg-yellow-500 text-black font-semibold text-lg px-4 py-2 rounded-3xl">1 kg</button> 
-             */}
             <div className="flex items-center gap-2 rounded-2xl bg-gray-200">
-              <button className="font-semibold text-lg px-4 py-2 rounded-xl">-</button>
-              <p className="font-semibold text-lg px-4 py-2 rounded-xl">1</p>
-              <button className="font-semibold text-lg px-4 py-2 rounded-xl">+</button>
+              <button
+                className="font-semibold text-lg px-4 py-2 rounded-xl"
+                onClick={() => handleQuantityChange("decrease")}
+              >
+                -
+              </button>
+              <p className="font-semibold text-lg px-4 py-2 rounded-xl">{quantity}</p>
+              <button
+                className="font-semibold text-lg px-4 py-2 rounded-xl"
+                onClick={() => handleQuantityChange("increase")}
+              >
+                +
+              </button>
             </div>
           </div>
           <hr className="bg-gray-500 h-[2px] w-full" />
@@ -120,10 +151,10 @@ export default function ProductPage() {
       <div className="container mx-auto max-w-screen px-4 py-6 md:px-16 lg:px-32">
         <div className="flex flex-wrap md:flex-nowrap items-center justify-center h-auto md:h-[490px] gap-4">
           <div className="flex items-center justify-center w-full md:w-1/2 h-full">
-            <Image className="object-cover w-full rounded-2xl h-auto max-h-[490px]" src={product.extraimages?.[2] || ""} alt="product" width={500} height={500} />
+            <Image className="object-cover w-full rounded-2xl h-auto max-h-[490px]" src={product.extraimages?.[0] || ""} alt="product" width={500} height={500} />
           </div>
           <div className="flex flex-col items-center gap-4 w-full md:w-1/2">
-            {product.extraimages?.slice(0, 1).map((img, index) => (
+            {product.extraimages?.slice(1, 3).map((img, index) => (
               <Image key={index} className="w-full rounded-2xl h-auto max-h-[240px] object-cover" src={img} alt="product" width={500} height={500} />
             ))}
           </div>

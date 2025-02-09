@@ -12,7 +12,7 @@ const Categorylist = [
         buttontext: "Shop Now"
     },
     {
-        title: "Chutney",
+        title: "CHUTNEY",
         image: "https://res.cloudinary.com/djwzwq4cu/image/upload/v1738584177/s7oigzzzg6xyadzg2a65.png",
         path: "/shop",
         buttontext: "Shop Now"

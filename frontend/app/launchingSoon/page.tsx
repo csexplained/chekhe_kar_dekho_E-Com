@@ -59,12 +59,8 @@ const ComingSoonPage = () => {
     <ComingSooncard
       key={product._id}
       carddata={{
-        price: product.price,
-        discount: product.discountprice,
         src: product.images[0], // Use the first image
         productname: product.name,
-        rating: product.rating,
-        noofreviews: product.noofreviews,
       }}
     />
   ));
@@ -74,7 +70,7 @@ const ComingSoonPage = () => {
       {/* Header Section */}
       <div className="flex flex-row justify-between items-start my-8">
         <div className="text-4xl sm:text-4xl md:text-5xl font-inter font-semibold text-left md:text-left mb-4 md:mb-0">
-          Coming Soon
+          Launching Soon
         </div>
       </div>
 
