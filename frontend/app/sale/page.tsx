@@ -5,7 +5,6 @@ import { Loader2, AlertCircle } from 'lucide-react';
 import HomePageCarousel from "@/components/CarousalHomepage";
 import Bannar from "@/components/Bannar";
 import TalkOfTown from '@/components/TalkOfTown';
-import BannarArray from '@/BannarDB';
 import { fetchCategories, Category } from '@/utils/categoryFetch';
 import TalkOfTownComponent from '@/components/TalksoftheTown';
 
@@ -109,6 +108,7 @@ const ProductListingPage = () => {
   return (
     <>
       <HomePageCarousel />
+      <Bannar index={2} />
       <div className='px-4 sm:px-8 md:px-12 py-12'>
         <div className="flex sm:flex-row justify-between items-start mb-6">
           <div className="text-3xl sm:text-4xl md:text-5xl font-inter font-semibold text-left mb-4 md:mb-0">
@@ -196,7 +196,7 @@ const ProductListingPage = () => {
           </button>
         </div>
       </div>
-      <Bannar imgLink={BannarArray[2]} />
+      <Bannar index={1} />
       <TalkOfTownComponent />
     </>
   );

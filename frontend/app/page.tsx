@@ -15,7 +15,6 @@ import HomePageCarousel from "@/components/CarousalHomepage";
 import Category from "@/components/Categorybannars";
 import TalksoftheTown from "@/components/TalksoftheTown";
 import Bannar from "@/components/Bannar";
-import BannarArry from "@/BannarDB";
 import User from "@/types/user.type";
 
 export default function Home() {
@@ -67,7 +66,7 @@ export default function Home() {
             <Category />
             <TalksoftheTown />
             <BestCombo />
-            <Bannar imgLink={BannarArry[0]} />
+            <Bannar index={0} />
             <Definately />
             <FansPage />
             <CustomerHome />

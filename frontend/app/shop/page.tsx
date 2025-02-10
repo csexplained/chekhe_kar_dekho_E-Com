@@ -5,7 +5,6 @@ import { Loader2, AlertCircle } from 'lucide-react';
 import HomePageCarousel from "@/components/CarousalHomepage";
 import Bannar from "@/components/Bannar";
 import TalkOfTown from '@/components/TalkOfTown';
-import BannarArray from '@/BannarDB';
 import { fetchCategories, Category } from '@/utils/categoryFetch';
 
 interface Product {
@@ -20,6 +19,8 @@ interface Product {
   };
   images: string[];
   stock: number;
+  ratings: number;
+  reviews: number;
 }
 
 const ProductListingPage = () => {
@@ -193,7 +194,7 @@ const ProductListingPage = () => {
           </button>
         </div>
       </div>
-      <Bannar imgLink={BannarArray[2]} />
+      <Bannar index={1} />
     </>
   );
 };

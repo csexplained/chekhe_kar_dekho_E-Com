@@ -1,7 +1,5 @@
 "use client";
-
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 
 export default function Home() {
     return (
@@ -13,7 +11,7 @@ export default function Home() {
                     <Link href="products/addproduct" className="px-6 w-full text-center py-3 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600">
                         Add Product
                     </Link>
-                    <Link className="px-6 py-3 w-full text-center bg-green-500 text-white rounded-lg shadow-md hover:bg-green-600" href={"addCategory"}>
+                    <Link className="px-6 py-3 w-full text-center bg-amber-900 text-white rounded-lg shadow-md hover:bg-amber-800" href={"addCategory"}>
                         Add Category
                     </Link>
                     <button className="px-6 py-3 bg-green-500 text-white rounded-lg shadow-md hover:bg-green-600">
@@ -24,6 +22,15 @@ export default function Home() {
                     </Link>
                     <Link href={"/addMainBannar"} className="px-6 py-3 bg-red-500 text-center text-white rounded-lg shadow-md hover:bg-red-600">
                         Add Main Banners
+                    </Link>
+                    <Link href={"/adddefinitelybannars"} className="px-6 py-3 bg-purple-500 text-center text-white rounded-lg shadow-md hover:bg-purple-600">
+                        Add definetly Banners
+                    </Link>
+                    <Link href={"/addvariticalbannar"} className="px-6 py-3 bg-black text-center text-white rounded-lg shadow-md hover:bg-black">
+                        Add Vertical Banners
+                    </Link>
+                    <Link href={"/addComboBanners"} className="px-6 py-3 bg-amber-500 text-center text-white rounded-lg shadow-md hover:bg-amber-600">
+                        Add Combo Banners
                     </Link>
                 </div>
             </div>

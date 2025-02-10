@@ -3,7 +3,7 @@ import React from 'react';
 import Image from 'next/image';
 import LocationMap from '../../components/LocationMap';
 import Bannar from '@/components/Bannar';
-import BannarArray from '@/BannarDB';
+
 
 // Reusable Contact Card Component
 interface ContactCardProps {
@@ -55,7 +55,7 @@ const Page = () => {
 
   return (
     <div className="bg-white">
-      <Bannar imgLink={BannarArray[0]} />
+      <Bannar index={0} />
 
       {/* Main Content Section */}
       <div className="container mx-auto px-12 py-8">

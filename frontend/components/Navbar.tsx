@@ -25,7 +25,9 @@ const Navbar = () => {
           <button className="lg:hidden p-2 my-2 rounded-full hover:bg-gray-300 transition-colors duration-200" onClick={toggleMenu}>
             {isMenuOpen ? <AiOutlineClose size={24} /> : <AiOutlineMenu size={24} />}
           </button>
-          <Image src={"https://res.cloudinary.com/dxae5w6hn/image/upload/v1738661234/lgaftiqtc7desrwoxn23.png"} width={80} height={80} alt="logo" className="h-14 sm:h-20 w-auto cursor-pointer" />
+          <Link href={"/"}>
+            <Image src={"https://res.cloudinary.com/dxae5w6hn/image/upload/v1738661234/lgaftiqtc7desrwoxn23.png"} width={80} height={80} alt="logo" className="h-14 sm:h-20 w-auto cursor-pointer" />
+          </Link>
 
           {/* Desktop Links */}
           <nav className="hidden lg:flex gap-6 text-lg font-normal">
@@ -68,8 +70,8 @@ const Navbar = () => {
             {
               user?.fullname !== "" ? (
                 <div className="rounded-full flex justify-center items-center text-white w-10 h-10 bg-green-800">
-                {user?.fullname.slice(0, 2)}
-              </div>
+                  {user?.fullname.slice(0, 2)}
+                </div>
               ) : (
                 <Link href={"/Login"}>
                   <svg width="27" height="26" viewBox="0 0 27 26" fill="none" xmlns="http://www.w3.org/2000/svg" className="cursor-pointer hover:opacity-75 transition-opacity duration-200">
