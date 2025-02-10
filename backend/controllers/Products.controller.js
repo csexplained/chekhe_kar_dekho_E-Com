@@ -158,10 +158,9 @@ export const updateProduct = async (req, res) => {
   try {
     const { id } = req.params;
     const updatedData = req.body;
-    const files = req.files;
-
+    const files = Array.isArray(req.files) ? req.files : Object.values(req.files || {}).flat();
     const product = await Product.findById(id);
-
+    
     if (!product) {
       return res.status(404).json({
         success: false,
@@ -169,14 +168,27 @@ export const updateProduct = async (req, res) => {
       });
     }
 
-    // Delete old images from Cloudinary
-    const deleteMainImagePromises = product.images.map(url => deletefromcloudinary(url));
-    const deleteExtraImagePromises = product.extraimages.map(url => deletefromcloudinary(url));
+    // Handle existing images from client
+    const existingMainImages = req.body.existingImages || [];
+    const existingExtraImages = req.body.existingExtraImages || [];
+
+    // Delete old images from Cloudinary that are not in existing images
+    const mainImagesToDelete = product.images.filter(url => !existingMainImages.includes(url));
+    const extraImagesToDelete = product.extraimages.filter(url => !existingExtraImages.includes(url));
+    
+    const deleteMainImagePromises = mainImagesToDelete.map(url => deletefromcloudinary(url));
+    const deleteExtraImagePromises = extraImagesToDelete.map(url => deletefromcloudinary(url));
+    
     await Promise.all([...deleteMainImagePromises, ...deleteExtraImagePromises]);
 
     // Upload new main and extra images to Cloudinary
-    const mainImageUploadPromises = files.filter(file => file.fieldname === 'images').map(file => uploadOnCloudinary(file.path));
-    const extraImageUploadPromises = files.filter(file => file.fieldname === 'extraimages').map(file => uploadOnCloudinary(file.path));
+    const mainImageUploadPromises = files
+      .filter(file => file.fieldname === 'images')
+      .map(file => uploadOnCloudinary(file.path));
+    
+    const extraImageUploadPromises = files
+      .filter(file => file.fieldname === 'extraimages')
+      .map(file => uploadOnCloudinary(file.path));
 
     const [mainImageResults, extraImageResults] = await Promise.all([
       Promise.all(mainImageUploadPromises),
@@ -186,8 +198,13 @@ export const updateProduct = async (req, res) => {
     const mainImageUrls = mainImageResults.map(response => response.secure_url);
     const extraImageUrls = extraImageResults.map(response => response.secure_url);
 
-    updatedData.images = mainImageUrls;
-    updatedData.extraimages = extraImageUrls;
+    // Combine existing and new image URLs
+    updatedData.images = [...existingMainImages, ...mainImageUrls];
+    updatedData.extraimages = [...existingExtraImages, ...extraImageUrls];
+
+    // Remove temporary fields before updating
+    delete updatedData.existingImages;
+    delete updatedData.existingExtraImages;
 
     const updatedProduct = await Product.findByIdAndUpdate(id, updatedData, {
       new: true,

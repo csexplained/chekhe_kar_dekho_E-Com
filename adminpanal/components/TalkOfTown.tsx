@@ -1,34 +1,45 @@
 import Image from 'next/image';
 import React from 'react';
+import Link from 'next/link';
 
 interface TalkOfTownProps {
-  carddata: {
+  product: {
+    _id: string;
+    name: string;
+    description: string;
     price: number;
-    discount: number;
-    src: string;
-    productname: string;
-    rating: number;
-    noofreviews: number;
-  }
+    discountprice: number;
+    images: string[];
+    ratings: number;
+    reviews: number;
+    stock: number;
+  };
 }
 
-const TalkOfTown = ({ carddata }: TalkOfTownProps) => {
+const TalkOfTown = ({ product }: TalkOfTownProps) => {
+  const discountedPrice = product.discountprice && product.price
+    ? Math.round(product.price * (1 - product.discountprice / 100))
+    : product.price;
+
   return (
-    <div className="border-[#B81F2E] border rounded-3xl pb-4 bg-white  shadow-xl w-full max-w-[310px] md:max-w-[350px] lg:max-w-[400px] xl:max-w-[450px] mx-auto">
-      <div className="relative w-full">
-        <div className="flex justify-center mx-auto">
+    <Link href={`/allproducts/product/${product._id}`} className="border-[#B81F2E] border min-h-[450px] rounded-3xl bg-white shadow-xl w-full h-full max-w-[310px] md:max-w-[350px] lg:max-w-[400px] xl:max-w-[450px] mx-auto flex flex-col">
+      <div className="relative w-full flex-1 flex flex-col">
+        {/* Image Container */}
+        <div className="flex-1 flex justify-center items-center p-4">
           <Image
-            src={carddata.src}
+            src={product.images[0]}
             alt="product image"
             width={200}
             height={200}
             className="w-full max-h-[270px] object-contain"
           />
         </div>
-        <div className='absolute w-full flex justify-between items-center px-4 -top-1 right-0'>
-          <div className="-top-1">
+
+        {/* Discount and Wishlist Icons */}
+        <div className='absolute w-full flex justify-between items-center px-4 top-0 right-0'>
+          <div className="top-0">
             <span className="absolute text-center flex justify-center items-center my-1 mx-4 w-4 text-white text-[10px] font-semibold rounded-full">
-              Save {carddata.discount}%
+              Save {product.discountprice}%
             </span>
             <svg width="47" height="76" viewBox="0 0 47 76" fill="none" xmlns="http://www.w3.org/2000/svg">
               <g filter="url(#filter0_dddd_17_189)">
@@ -69,49 +80,46 @@ const TalkOfTown = ({ carddata }: TalkOfTownProps) => {
           </div>
         </div>
 
-        {/* Product Info Section */}
-        <div className="px-3 w-full">
+        {/* Product Details */}
+        <div className="px-3 mt-auto  w-full">
           <h5 className="text-xl h-8 overflow-hidden font-semibold text-[#000000]">
-            {carddata.productname}
+            {product.name}
           </h5>
-          <div className='flex justify-start gap-2 items-center'>
-            <div className="flex w-14 h-8 text-sm font-semibold bg-[#5C0C14] rounded-full text-white px-2 gap-1 items-center">
+          <div className='flex justify-start py-1 gap-2 items-center'>
+            <div className="flex w-14 h-8 text-sm font-semibold bg-[#5C0C14] rounded-full text-white px-2 gap-1 justify-center items-center">
               <svg width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M7.01627 0.628906L8.95095 4.82027L13.5108 5.37629L10.1466 8.52271L11.0301 13.0577L7.01627 10.8109L3.00242 13.0577L3.8859 8.52271L0.521724 5.37629L5.0816 4.82027L7.01627 0.628906Z" fill="#FFA500" />
               </svg>
               <span className="">
-                {carddata.rating}
+                {product.ratings}
               </span>
             </div>
             <div className="flex flex-col text-sm font-semibold justify-start rounded-full text-black gap-1 items-start">
               <div className='flex gap-1'>
-                {Array.from({ length: Math.round(carddata.rating) }).map((_, i) => (
+                {Array.from({ length: Math.round(product.ratings) }).map((_, i) => (
                   <svg key={i} width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M7.01627 0.628906L8.95095 4.82027L13.5108 5.37629L10.1466 8.52271L11.0301 13.0577L7.01627 10.8109L3.00242 13.0577L3.8859 8.52271L0.521724 5.37629L5.0816 4.82027L7.01627 0.628906Z" fill="#FFA500" />
                   </svg>
                 ))}
               </div>
-              <p className='text-[#000000CC] text-[10px] font-semibold'>{carddata.noofreviews} Reviews</p>
+              <p className='text-[#000000CC] text-[10px] font-semibold'>{product.reviews} Reviews</p>
             </div>
           </div>
 
-          {/* Price Section (on the same row) */}
-          <div className="flex px-1 gap-3 justify-between items-center">
+          {/* Price and Add to Cart Button */}
+          <div className="flex px-1 gap-3 justify-between items-center mb-4">
             <div className="flex justify-start items-end">
               <span className="text-3xl font-bold font-poppins text-gray-900 dark:text-white mr-2">
-                <span className='text-2xl text-gray-900'>₹</span>{carddata.price}
+                <span className='text-2xl text-gray-900'>₹</span>{discountedPrice}
               </span>
               <span className="text-lg line-through font-medium text-gray-900">
-                <span className='text-sm'>₹</span>{carddata.price + carddata.discount}
+                <span className='text-sm'>₹</span>{product.price}
               </span>
             </div>
-            <button className="bg-custom-red font-poppins text-lg ml-2 w-[140px] text-white py-2 px-4 rounded-full">
-              Add to Cart
-            </button>
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 

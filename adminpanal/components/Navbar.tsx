@@ -16,11 +16,11 @@ const Navbar = () => {
       <div className="sticky top-0 w-full px-6 md:px-16 lg:px-16 h-[105px] flex justify-between items-center bg-white shadow-md z-50">
 
         {/* Logo */}
-        <div className="flex items-center gap-4">
+        <Link href={"/dashboard"} className="flex items-center gap-4">
           <Image src={"https://res.cloudinary.com/dxae5w6hn/image/upload/v1738661234/lgaftiqtc7desrwoxn23.png"} width={80} height={80} alt="logo" className="h-14 sm:h-20 w-auto cursor-pointer" />
 
 
-        </div>
+        </Link>
 
 
         <div className="flex items-center gap-4">

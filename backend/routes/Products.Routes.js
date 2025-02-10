@@ -26,10 +26,9 @@ router.post('/',
 );
 
 router.put('/:id',
-    verifyAdminjwt,
     upload.fields([
-        { name: 'images', maxCount: 5 },
-        { name: 'extraimages', maxCount: 5 }
+        { name: 'images', maxCount: 7 },
+        { name: 'extraimages', maxCount: 4 }
     ]),
     updateProduct
 );
