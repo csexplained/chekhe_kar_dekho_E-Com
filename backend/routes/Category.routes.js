@@ -1,6 +1,6 @@
 import express from 'express';
 import CategoryController from '../controllers/Category.controller.js';
-import { verifyAdminjwt } from '../middlewares/AdminAuth.middleware.js';
+import { verifyAdminjwt } from '../Middlewares/AdminAuth.middleware.js';
 
 
 const router = express.Router();

@@ -6,7 +6,7 @@ import {
     updateProduct,
     deleteProduct
 } from '../controllers/Products.controller.js';
-import { verifyAdminjwt } from '../middlewares/AdminAuth.middleware.js';
+import { verifyAdminjwt } from '../Middlewares/AdminAuth.middleware.js';
 import multer from 'multer';
 
 const upload = multer({ dest: './Public/temp' });

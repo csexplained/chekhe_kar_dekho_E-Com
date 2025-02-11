@@ -6,7 +6,7 @@ import {
     addDefinetlyBanner, deleteDefinetlyBanner, getDefinetlyBanners,
     addVarticalBanner, deleteVarticalBanner, getVarticalBanners
 } from '../controllers/Bannar.controller.js';
-import { verifyAdminjwt } from '../middlewares/AdminAuth.middleware.js';
+import { verifyAdminjwt } from '../Middlewares/AdminAuth.middleware.js';
 
 const router = express.Router();
 const upload = multer({ dest: './Public/temp' });

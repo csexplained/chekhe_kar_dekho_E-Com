@@ -1,7 +1,7 @@
 import express from 'express';
 import CartController from '../controllers/Cart.controller.js'; // Assuming the controller is in the controllers folder
-import { verifyjwt } from "../middlewares/auth.middleware.js";
-import { verifyAdminjwt } from '../middlewares/AdminAuth.middleware.js';
+import { verifyjwt } from "../Middlewares/auth.middleware.js";
+import { verifyAdminjwt } from '../Middlewares/AdminAuth.middleware.js';
 
 const router = express.Router();
 
