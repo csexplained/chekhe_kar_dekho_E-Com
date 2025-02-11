@@ -8,10 +8,7 @@ import {
     getCurrentUser,
     updateAccountDetails,
 } from "../controllers/Admin-User.controller.js";
-import { upload } from '../middlewares/multer.middleware.js'
 import { verifyAdminjwt } from "../middlewares/AdminAuth.middleware.js";
-import { verifyjwt } from "../middlewares/auth.middleware.js";
-import { addedusertoreqdontstopresponse } from "../middlewares/authnotstopreq.middleware..js";
 
 const router = Router();
 router.route('/register').post(registerUser);
