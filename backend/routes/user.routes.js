@@ -8,7 +8,7 @@ import {
     getCurrentUser,
     updateAccountDetails,
 } from "../controllers/user.controller.js";
-import { verifyjwt } from "../middlewares/auth.middleware.js";
+import { verifyjwt } from "../Middlewares/Auth.middleware.js";
 
 const router = Router();
 router.route('/register').post(registerUser);
