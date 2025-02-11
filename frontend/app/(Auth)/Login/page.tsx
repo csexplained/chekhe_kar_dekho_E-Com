@@ -7,7 +7,7 @@ import { useRouter } from "next/navigation";
 import { useToast } from "@/hooks/use-toast";
 import { useDispatch } from "react-redux";
 import { setUser } from "@/store/authSlice";
-import { isAxiosError } from "axios";
+
 import User from "@/types/user.type";
 
 // Validation helpers
@@ -113,7 +113,7 @@ const LoginPage = () => {
 
             let errorMessage = "An unexpected error occurred. Please try again.";
 
-            if (isAxiosError(error)) {
+            if (axios.isAxiosError(error)) {
                 if (error.response) {
                     if (error.response.status === 401) {
                         errorMessage = "Invalid credentials. Please try again.";
@@ -124,7 +124,7 @@ const LoginPage = () => {
                     errorMessage = "No response received from the server. Please check your connection.";
                 }
             } else if (error instanceof Error) {
-                errorMessage = error.errors;
+                errorMessage = error.message;
             }
 
             setError(errorMessage);

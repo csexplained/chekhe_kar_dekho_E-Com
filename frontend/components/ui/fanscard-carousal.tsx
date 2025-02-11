@@ -5,6 +5,7 @@ import React, {
     useState,
     createContext,
     useContext,
+    JSX,
 } from "react";
 import {
     IconArrowNarrowLeft,
@@ -163,7 +164,7 @@ export const FansCard = ({
     layout?: boolean;
 }) => {
     const [open, setOpen] = useState(false);
-    const containerRef = useRef<HTMLDivElement>(null);
+    const containerRef = useRef<HTMLDivElement | null>(null);
     const { onCardClose, currentIndex } = useContext(CarouselContext);
 
     useEffect(() => {
@@ -183,7 +184,7 @@ export const FansCard = ({
         return () => window.removeEventListener("keydown", onKeyDown);
     }, [open]);
 
-    useOutsideClick(containerRef, () => handleClose());
+    useOutsideClick(containerRef as React.RefObject<HTMLDivElement>, () => handleClose());
 
     const handleOpen = () => {
         setOpen(true);

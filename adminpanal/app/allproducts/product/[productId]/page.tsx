@@ -10,7 +10,6 @@ import {
   AccordionItem,
   AccordionTrigger,
 } from "@/components/ui/accordion";
-import CustomerHome from "@/components/CustomerHome";
 import { useToast } from "@/hooks/use-toast";
 import Link from "next/link";
 
@@ -190,7 +189,7 @@ export default function ProductPage() {
         </Accordion>
       </div>
 
-      <CustomerHome />
+      
     </>
   );
 }

@@ -133,7 +133,7 @@ const SignupPage = () => {
                     errorMessage = "No response received from the server. Please try again.";
                 }
             } else if (error instanceof Error) {
-                errorMessage = error.errors;
+                errorMessage = error.message;
             }
 
             setError(errorMessage);

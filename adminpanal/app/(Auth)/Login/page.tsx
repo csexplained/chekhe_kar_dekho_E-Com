@@ -124,7 +124,7 @@ const LoginPage = () => {
                     errorMessage = "No response received from the server. Please check your connection.";
                 }
             } else if (error instanceof Error) {
-                errorMessage = error.errors;
+                errorMessage = error.message;
             }
 
             setError(errorMessage);
