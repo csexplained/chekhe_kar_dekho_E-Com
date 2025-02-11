@@ -9,14 +9,14 @@ import {
     updateAccountDetails,
 } from "../controllers/user.controller.js";
 import { verifyjwt } from "../Middlewares/Auth.middleware.js";
-
+// updateding isseu
 const router = Router();
 router.route('/register').post(registerUser);
 
 
 router.route("/login").post(loginUser)
 
-// secured routes
+// secured routes 
 router.route("/logout").post(verifyjwt, logoutUser)
 router.route("/refreashtoken").post(refreshAccessToken)
 router.route("/change-password").post(verifyjwt, changeCurrentPassword)
