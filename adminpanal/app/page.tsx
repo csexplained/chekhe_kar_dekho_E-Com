@@ -58,13 +58,13 @@ export default function Home() {
                 <h1 className="text-2xl font-bold mb-6">Product Management</h1>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
 
-                    <Link href="products/addproduct" className="px-6 w-full text-center py-3 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600">
-                        Add Product
+                    <Link href="/Login" className="px-6 w-full text-center py-3 bg-blue-500 text-white rounded-lg shadow-md hover:bg-blue-600">
+                        Login
                     </Link>
-                    <Link className="px-6 py-3 w-full text-center bg-green-500 text-white rounded-lg shadow-md hover:bg-green-600" href={"addCategory"}>
-                        Add Category
+                    <Link className="px-6 py-3 w-full text-center bg-green-500 text-white rounded-lg shadow-md hover:bg-green-600" href={"/Signup"}>
+                        Signup
                     </Link>
-                    
+
                 </div>
             </div>
         </>

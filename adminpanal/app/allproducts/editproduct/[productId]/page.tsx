@@ -265,7 +265,7 @@ const AddProductPage = () => {
             });
 
             // Optionally redirect after successful submission
-            router.push("/products");
+            router.push("/allproducts");
         } catch (error: unknown) {
             console.error("API Error:", error);
 
